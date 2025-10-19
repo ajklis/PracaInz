@@ -5,6 +5,7 @@
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public object Data { get; set; }
+        public string UserRoles { get; set; }
         public DateTime ExpirationDate { get; set; }
     }
 }

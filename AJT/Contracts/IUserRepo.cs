@@ -8,5 +8,6 @@ namespace AJT.Contracts
         Task<User> UpdateUser(User user);
         Task RemoveUser(User user);
         Task<User?> GetUserById(Guid id);
+        Task<User?> GetUserByLogin(string login);
     }
 }

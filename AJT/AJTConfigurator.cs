@@ -48,5 +48,11 @@ namespace AJT
             actions.Add(services => services.AddHostedService<DbMigrationService>());
             return this;
         }
+
+        public IAJTConfigurator AddDataToToken(Func<Guid, IServiceProvider, Task<object>> func)
+        {
+            TokenDataService.InitFunc = func;
+            return this;
+        }
     }
 }

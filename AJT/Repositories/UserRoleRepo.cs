@@ -20,15 +20,29 @@ namespace AJT.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task RemoveUserRole(UserRole userRole)
+        public async Task RemoveUserRole(User user, string role)
         {
+            var roleEntity = await _db.Roles.Where(x => x.RoleCode == role).FirstOrDefaultAsync();
+            if (roleEntity is null)
+                return;
+
+            var userRole = await _db.UserRoles.FirstOrDefaultAsync(x => x.UserId == user.Id && x.RoleId == roleEntity.Id);
+            if (userRole is null)
+                return;
+
             _db.UserRoles.Remove(userRole);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<UserRole?> GetUserRole(User user, Role role)
+        public async Task<List<Role>?> GetUserRoles(User user)
         {
-            return await _db.UserRoles.FirstOrDefaultAsync(x => x.UserId == user.Id && x.RoleId == role.Id);
+            var roleIds = await _db.UserRoles.Where(x => x.UserId == user.Id).Select(x => x.RoleId).ToListAsync();
+            return await _db.Roles.Where(x => roleIds.Contains(x.Id)).ToListAsync();
+        }
+
+        public async Task<List<UserRole>> GetAllUserRoles()
+        {
+            return await _db.UserRoles.ToListAsync();
         }
     }
 }

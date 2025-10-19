@@ -2,6 +2,7 @@
 using AJT.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace AJT.DB
 {
@@ -10,10 +11,10 @@ namespace AJT.DB
         private readonly ILogger<AJTDbContext> _logger;
         private readonly string _connectionString;
 
-        public AJTDbContext(AJTOptions options, ILogger<AJTDbContext> logger)
+        public AJTDbContext(IOptions<AJTOptions> options, ILogger<AJTDbContext> logger)
         {
             _logger = logger;
-            _connectionString = options.ConnectionString;
+            _connectionString = options.Value.ConnectionString;
         }
 
         public DbSet<User> Users { get; set; }

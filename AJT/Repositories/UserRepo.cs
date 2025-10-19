@@ -38,5 +38,10 @@ namespace AJT.Repositories
         {
             return await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<User?> GetUserByLogin(string login)
+        {
+            return await _db.Users.FirstOrDefaultAsync(x => x.Username == login || x.Email == login);
+        }
     }
 }

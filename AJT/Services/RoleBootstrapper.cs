@@ -1,5 +1,7 @@
-﻿using AJT.Contracts;
+﻿using AJT.Attributes;
+using AJT.Contracts;
 using AJT.Options;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -8,26 +10,29 @@ namespace AJT.Services
 {
     internal class RoleBootstrapper : IHostedService
     {
-        private readonly IRoleRepo _roleRepo;
-        private readonly IUserRoleRepo _userRoleRepo;        
+        private readonly IServiceScopeFactory _scopeFactory;
         private readonly IOptions<AJTOptions> _options;
 
-        public RoleBootstrapper(IRoleRepo roleRepo, IUserRoleRepo userRoleRepo, IOptions<AJTOptions> options)
+        public RoleBootstrapper(IServiceScopeFactory scopeFactory, IOptions<AJTOptions> options)
         {
-            _roleRepo = roleRepo;
-            _userRoleRepo = userRoleRepo;
+            _scopeFactory = scopeFactory;
             _options = options;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var existingRoles = await _roleRepo.GetAllRoles();
+            using var scope = _scopeFactory.CreateScope();
+            var roleRepo = scope.ServiceProvider.GetRequiredService<IRoleRepo>();
+
+            var existingRoles = await roleRepo.GetAllRoles();
             var configRoles = new List<(int Id, string Code)>();
 
             var list = _options.Value.DetectRolesFromAssembly
                 ? GetDefinedRoles()
                 : _options.Value.Roles;
 
+            if (list is null || list.Count == 0)
+                return;
             
             for (int i = 0; i < list.Count; i++)
                 configRoles.Add(new(i, list[i]));
@@ -47,8 +52,12 @@ namespace AJT.Services
         private async Task ChangeRolesAsync(List<(int number, string Code)> roles, CancellationToken cancellationToken)
         {
             // get DB data backed up
-            var currnetRoles = await _roleRepo.GetAllRoles();
-            var userRoles = await _userRoleRepo.GetAllUserRoles();
+            using var scope = _scopeFactory.CreateScope();
+            var roleRepo = scope.ServiceProvider.GetRequiredService<IRoleRepo>();
+            var userRoleRepo = scope.ServiceProvider.GetRequiredService<IUserRoleRepo>();
+            
+            var currnetRoles = await roleRepo.GetAllRoles();
+            var userRoles = await userRoleRepo.GetAllUserRoles();
             var userRoleNames = userRoles.Select(x => new
             {
                 x.UserId,
@@ -56,14 +65,14 @@ namespace AJT.Services
             }).ToList();
 
             // clear DB
-            await _roleRepo.RemoveAllRoles();
+            await roleRepo.RemoveAllRoles();
 
             // populate DB roles
             foreach (var (roleNumber, roleCode) in roles)
-                await _roleRepo.AddRole(new Entities.Role() { RoleNumber = roleNumber, RoleCode = roleCode });
+                await roleRepo.AddRole(new Entities.Role() { RoleNumber = roleNumber, RoleCode = roleCode });
 
             // revert user roles in DB
-            var updatedRoles = await _roleRepo.GetAllRoles();
+            var updatedRoles = await roleRepo.GetAllRoles();
 
             foreach (var userRole in userRoleNames)
             {
@@ -71,7 +80,7 @@ namespace AJT.Services
                 if (role is null)
                     continue;
                 
-                await _userRoleRepo.AddUserRole(new Entities.User() { Id = userRole.UserId }, role);
+                await userRoleRepo.AddUserRole(new Entities.User() { Id = userRole.UserId }, role);
             }
         }
 
@@ -84,16 +93,19 @@ namespace AJT.Services
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            return assembly
-                .GetTypes()
-                .SelectMany(t => t.GetCustomAttributes<AllowRoleAttribute>(true)
-                    .Select(a => a.RoleCode))
-                .Concat(
-                    assembly.GetTypes()
-                        .SelectMany(t => t.GetMethods())
-                        .SelectMany(m => m.GetCustomAttributes<AllowRoleAttribute>(true)
-                            .Select(a => a.RoleCode))
-                )
+            // Role z klas
+            var classRoles = assembly.GetTypes()
+                .SelectMany(t => t.GetCustomAttributes<AllowRoleAttribute>(true))
+                .SelectMany(a => a.Roles);
+
+            // Role z metod
+            var methodRoles = assembly.GetTypes()
+                .SelectMany(t => t.GetMethods())
+                .SelectMany(m => m.GetCustomAttributes<AllowRoleAttribute>(true))
+                .SelectMany(a => a.Roles);
+
+            return classRoles
+                .Concat(methodRoles)
                 .Distinct()
                 .ToList();
         }

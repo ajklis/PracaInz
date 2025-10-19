@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Channels;
 
 namespace AJT.Services
 {
@@ -22,7 +23,7 @@ namespace AJT.Services
         {
             var tokenJson = JsonConvert.SerializeObject(token);
             var tokenJson64 = Base64UrlEncode(Encoding.UTF8.GetBytes(tokenJson));
-            var signature = CreateSignature(tokenJson, _options.Value.Secret);
+            var signature = CreateSignature(tokenJson64, _options.Value.Secret);
             return string.Join('.', tokenJson64, signature);
         }
 
@@ -30,7 +31,7 @@ namespace AJT.Services
         {
             var tokenJson = JsonConvert.SerializeObject(refreshToken);
             var tokenJson64 = Base64UrlEncode(Encoding.UTF8.GetBytes(tokenJson));
-            var signature = CreateSignature(tokenJson, _options.Value.Secret);
+            var signature = CreateSignature(tokenJson64, _options.Value.Secret);
             return string.Join('.', tokenJson64, signature);
         }
 
@@ -45,6 +46,17 @@ namespace AJT.Services
             string expectedSignature = CreateSignature(unsignedToken, _options.Value.Secret);
 
             return signature == expectedSignature;
+        }
+
+        public string DecodePayload(string hashedToken)
+        {
+            var parts = hashedToken.Split('.');
+            if (parts.Length != 2)
+                throw new ArgumentException("Invalid AJT");
+
+            var payload = parts[0];
+            var bytes = Base64UrlDecode(payload);
+            return Encoding.UTF8.GetString(bytes);
         }
 
         private static string CreateSignature(string unsignedToken, string secret)
@@ -64,5 +76,18 @@ namespace AJT.Services
                 .Replace('+', '-')
                 .Replace('/', '_');
         }
+
+        private static byte[] Base64UrlDecode(string input)
+        {
+            string padded = input.Replace('-', '+').Replace('_', '/');
+            switch (padded.Length % 4)
+            {
+                case 2: padded += "=="; break;
+                case 3: padded += "="; break;
+            }
+            return Convert.FromBase64String(padded);
+        }
+
+
     }
 }

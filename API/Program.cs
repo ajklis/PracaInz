@@ -16,11 +16,19 @@ namespace API
                 new AJT.Options.AJTOptions
                 {
                     ConnectionString = builder.Configuration.GetConnectionString("AJT"),
+                    Secret = "super_sekretny_tekst",
                     TokenExpirationTime = TimeSpan.FromMinutes(10),
-                    RefreshTokenExpirationTime = TimeSpan.FromDays(7)
+                    RefreshTokenExpirationTime = TimeSpan.FromDays(7),
+                    Roles = [
+                        "admin",
+                        "role1",
+                        "role2",
+                        ]
                 },
                 config => config.UseRoleBootstrapper()
-                    .UsePasswordHashing<PasswordHashingService>()
+                    //.UsePasswordHashing<PasswordHashingService>()
+                    //.AutomaticallyDetectRoles()
+                    .MigrateDatabase()
                     .AddDataToToken(AddInfo)
             );
 

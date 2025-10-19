@@ -2,7 +2,9 @@
 using AJT.DB;
 using AJT.Options;
 using AJT.Repositories;
+using AJT.Services;
 using Microsoft.Extensions.DependencyInjection;
+using MOptions = Microsoft.Extensions.Options.Options;
 
 namespace AJT
 {
@@ -26,7 +28,13 @@ namespace AJT
             var configurator = (AJTConfigurator)configure(new AJTConfigurator());
             configurator.ApplyConfiguration(services, options);
 
-            services.Configure<AJTOptions>(opts => opts = options);
+            services.AddSingleton(MOptions.Create(options));
+
+            // services
+            services.AddSingleton<IHashingService, HashingService>();
+            services.AddSingleton<ILoginService, LoginService>();
+            services.AddSingleton<IRoleService, RoleService>();
+            services.AddSingleton<ITokenDataService, TokenDataService>();
 
             return services;
         }
