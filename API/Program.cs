@@ -1,4 +1,5 @@
 using AJT;
+using AJT.Contracts;
 using API.Services;
 
 namespace API
@@ -16,14 +17,10 @@ namespace API
                 new AJT.Options.AJTOptions
                 {
                     ConnectionString = builder.Configuration.GetConnectionString("AJT"),
-                    Secret = "super_sekretny_tekst",
+                    Secret = "super_sekretny_klucz",
                     TokenExpirationTime = TimeSpan.FromMinutes(10),
                     RefreshTokenExpirationTime = TimeSpan.FromDays(7),
-                    Roles = [
-                        "admin",
-                        "role1",
-                        "role2",
-                        ]
+                    Roles = GenerateRoles()
                 },
                 config => config.UseRoleBootstrapper()
                     //.UsePasswordHashing<PasswordHashingService>()
@@ -49,6 +46,17 @@ namespace API
         static async Task<object> AddInfo(Guid userId, IServiceProvider services)
         {
             return "siema";
+        }
+
+        static List<string> GenerateRoles()
+        {
+            var roles = new List<string>
+            {
+                "admin"
+            };
+            for (int i = 0; i < 50; i++)
+                roles.Add($"role{i}");
+            return roles;
         }
     }
 }

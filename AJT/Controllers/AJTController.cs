@@ -1,5 +1,4 @@
-﻿using AJT.Attributes;
-using AJT.Contracts;
+﻿using AJT.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

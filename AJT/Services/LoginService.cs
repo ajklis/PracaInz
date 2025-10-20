@@ -3,7 +3,6 @@ using AJT.Entities;
 using AJT.Models;
 using AJT.Options;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
@@ -16,16 +15,17 @@ namespace AJT.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly IRoleService _roleService;
         private readonly IHashingService _hashingService;
-        private readonly ILogger<LoginService> _logger;
+        private readonly ITokenDataService _tokenDataService;
 
-        public LoginService(IServiceScopeFactory scopeFactory, IOptions<AJTOptions> options, IPasswordHasher passwordHasher, IRoleService roleService, IHashingService hashingService, ILogger<LoginService> logger)
+        public LoginService(IServiceScopeFactory scopeFactory, IOptions<AJTOptions> options, IPasswordHasher passwordHasher, IRoleService roleService, 
+            IHashingService hashingService, ITokenDataService tokenDataService)
         {
             _scopeFactory = scopeFactory;
             _options = options;
             _passwordHasher = passwordHasher;
             _roleService = roleService;
             _hashingService = hashingService;
-            _logger = logger;
+            _tokenDataService = tokenDataService;
         }
 
         public async Task<CombinedToken?> Login(string login, string password)
@@ -111,6 +111,7 @@ namespace AJT.Services
             {
                 Id = Guid.NewGuid(),
                 UserId = user.Id,
+                Data = await _tokenDataService.GetCustomTokenData(user.Id),
                 ExpirationDate = DateTime.Now.Add(_options.Value.TokenExpirationTime)
             };
 
@@ -125,6 +126,8 @@ namespace AJT.Services
                 ExpirationDate = DateTime.Now.Add(_options.Value.RefreshTokenExpirationTime)
             };
             await refreshTokenRepo.AddRefreshToken(refreshToken);
+
+            Console.WriteLine(JsonConvert.SerializeObject(token));
 
             return new CombinedToken
             {

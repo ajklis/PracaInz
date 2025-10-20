@@ -29,8 +29,16 @@ namespace API.Controllers
             return Ok();
         }
 
+        [RequireAuthentication]
+        [HttpGet("data")]
+        public IActionResult Data()
+        {
+            var data = HttpContext.Items["AJT"] as string;
+            return Ok($"stored token data: {data}");
+        }
+
         [AllowRole("admin")]
-        [HttpGet("admin")]
+        [HttpGet("endpoint")]
         public IActionResult Admin() => Ok("admin");
 
         [AllowRole("admin", "role1")]

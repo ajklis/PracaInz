@@ -2,7 +2,7 @@
 
 namespace AJT.Contracts
 {
-    internal interface IUserRepo
+    public interface IUserRepo
     {
         Task<User> AddUser(User user);
         Task<User> UpdateUser(User user);
