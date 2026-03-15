@@ -1,25 +1,61 @@
 \relax 
-\@writefile{toc}{\contentsline {section}{\numberline {1}Projekt i architektura systemu autoryzacji}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Koncepcja tokenu autoryzacyjnego}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Warstwa danych i abstrakcja bazy}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1}Definicje modeli encji}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Mechanizmy kryptograficzne i integralność danych}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Algorytm podpisu cyfrowego}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Implementacja serwisu haszującego}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Weryfikacja tokenu}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Mechanizm zarządzania rolami}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Algorytmika obsługi ról bitowych}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Logika biznesowa procesu uwierzytelniania}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Proces logowania i generowania tokenów}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Automatyzacja zarządzania uprawnieniami}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Algorytm synchronizacji i detekcji ról}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Procedura aktualizacji bazy danych}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Dynamiczne rozszerzanie ładunku tokenu}{11}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Implementacja serwisu TokenDataService}{11}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7}Implementacja warstwy autoryzacji w potoku HTTP}{11}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {8}Konfiguracja i integracja systemu}{13}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {9}Praktyczne zastosowanie w warstwie API}{14}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Implementacja kontrolera testowego}{14}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Inicjalizacja i konfiguracja środowiska}{16}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {10}Podsumowanie}{17}{}\protected@file@percent }
-\gdef \@abspage@last{17}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Wstęp}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Rys historyczny i ewolucja mechanizmów uwierzytelniania}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Protokół HTTP a bezstanowość}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Koncepcja autoryzacji opartej na tokenach}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Anatomia standardu JSON Web Token (JWT)}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Cel pracy}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6}Skład pracy}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Projekt i architektura systemu autoryzacji}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Koncepcja tokenu autoryzacyjnego}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Warstwa danych i abstrakcja bazy}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Definicje modeli encji}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Mechanizmy kryptograficzne i integralność danych}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Algorytm podpisu cyfrowego}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Implementacja serwisu haszującego}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Weryfikacja tokenu}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Diagram przypadków użycia}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Diagram przypadków użycia systemu autoryzacji}}{9}{}\protected@file@percent }
+\newlabel{fig:usecase_diagram}{{1}{9}{}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Diagram sekwencji: Przepływ autoryzacji}{10}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Diagram sekwencji przedstawiający proces weryfikacji uprawnień}}{10}{}\protected@file@percent }
+\newlabel{fig:sequence_diagram}{{2}{10}{}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Struktura implementacyjna i organizacja kodu}{11}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Zastosowanie wzorca wstrzykiwania zależności}{11}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}Diagramy klas systemu}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.8.1}Warstwa danych (Persystencja)}{12}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Diagram klas warstwy danych (Entities)}}{12}{}\protected@file@percent }
+\newlabel{fig:class_entities}{{3}{12}{}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.8.2}Warstwa kontraktów i modeli wymiany danych}{13}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Diagram klas warstwy kontraktów i modeli (DTO)}}{13}{}\protected@file@percent }
+\newlabel{fig:class_contracts}{{4}{13}{}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.8.3}Warstwa implementacji logiki i punktów dostępu}{13}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Diagram klas implementacji logiki biznesowej i atrybutów}}{13}{}\protected@file@percent }
+\newlabel{fig:class_services}{{5}{13}{}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9}Mechanizm zarządzania rolami}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.9.1}Przykład konwersji uprawnień na maskę bitową}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.10}Algorytmika obsługi ról bitowych}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.11}Logika biznesowa i potok autoryzacji}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.12}Proces logowania i generowania tokenów}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.13}Dynamiczne rozszerzanie ładunku tokenu}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.14}Automatyzacja zarządzania uprawnieniami (RoleBootstrapper)}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.15}Implementacja potoku autoryzacji HTTP}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Zastosowanie praktyczne w warstwie API}{19}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Implementacja kontrolera testowego}{19}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Instalacja i konfiguracja biblioteki}{20}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Dodanie referencji i inicjalizacja}{20}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Parametry konfiguracyjne (AJTOptions)}{21}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Konfiguracja zaawansowana (AJTConfigurator)}{21}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Analiza bezpieczeństwa i porównanie z rozwiązaniami rynkowymi}{22}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Ocena bezpieczeństwa i obszary do optymalizacji}{22}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Porównanie z samodzielną implementacją JWT}{22}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Porównanie z systemem Keycloak}{23}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Zestawienie analityczne cech}{23}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Porównanie mechanizmów autoryzacji}}{23}{}\protected@file@percent }
+\newlabel{tab:comparison}{{1}{23}{}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Wnioski częściowe}{23}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Podsumowanie i kierunki dalszego rozwoju}{24}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Realizacja założeń projektowych}{24}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Perspektywy rozwoju}{24}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Słowo końcowe}{24}{}\protected@file@percent }
+\gdef \@abspage@last{24}
