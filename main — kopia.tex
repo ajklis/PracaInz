@@ -18,7 +18,7 @@
 \course{Informatyka}
 \promotor{dr inż. Artur Krupa}
 \pworkplace{Katedra Informatyki / Instytut Informatyki Technicznej} 
-\date{2026}
+\date{Warszawa, 2026}
 
 \geometry{
  a4paper,
@@ -44,7 +44,7 @@
 \tableofcontents
 \clearpage
 
-\chapter{Wstęp}
+\section{Wstęp}
 
 Wraz z dynamicznym rozwojem aplikacji internetowych oraz popularyzacją architektury rozproszonej, mechanizmy uwierzytelniania i autoryzacji stały się jednym z najbardziej krytycznych elementów systemów informatycznych. Zapewnienie bezpieczeństwa danych, przy jednoczesnym zachowaniu wysokiej wydajności i skalowalności, stanowi wyzwanie, z którym inżynierowie oprogramowania mierzą się od początków istnienia sieci WWW. We wczesnych fazach rozwoju aplikacji internetowych serwery generowały statyczne strony HTML, a potrzeba śledzenia tożsamości użytkownika była marginalna. Z czasem standardem stało się podejście oparte na sesjach, gdzie serwer tworzył w pamięci operacyjnej obiekt sesji, a do przeglądarki klienta wysyłał jedynie identyfikator zapisywany w pliku cookie. Choć bezpieczne, rozwiązanie to utrudniało skalowanie poziome w nowoczesnych architekturach mikroserwisowych.
 
@@ -54,11 +54,11 @@ Głównym celem niniejszej pracy inżynierskiej jest zaprojektowanie oraz implem
 
 \clearpage
 
-\chapter{Przegląd technologii i stan wiedzy}
+\section{Przegląd technologii i stan wiedzy}
 
 Aby w pełni zrozumieć architekturę proponowanego rozwiązania, konieczne jest omówienie fundamentów teoretycznych oraz technologii wykorzystywanych w nowoczesnych aplikacjach webowych. Rozdział ten wprowadza pojęcia protokołu HTTP, dogłębnie analizuje ewolucję mechanizmów utrzymania stanu, poddaje krytyce popularny standard JWT oraz definiuje stos technologiczny wybrany do implementacji autorskiego systemu.
 
-\section{Uwierzytelnianie a autoryzacja}
+\subsection{Uwierzytelnianie a autoryzacja}
 
 W inżynierii bezpieczeństwa oprogramowania pojęcia uwierzytelniania i autoryzacji są często używane zamiennie, co stanowi poważny błąd terminologiczny. Zrozumienie różnicy między nimi jest kluczowe dla poprawnego modelowania systemów dostępu.
 
@@ -66,13 +66,13 @@ W inżynierii bezpieczeństwa oprogramowania pojęcia uwierzytelniania i autoryz
 
 \textbf{Autoryzacja (ang. Authorization - AuthZ)} to proces decyzyjny następujący zawsze po udanym uwierzytelnieniu. Odpowiada na pytanie: "Czy masz prawo to zrobić?". Nawet jeśli tożsamość użytkownika została poprawnie zweryfikowana, system autoryzacyjny musi sprawdzić, czy jego rola uprawnia go do dostępu do konkretnego zasobu (np. usunięcia rekordu z bazy danych). Niniejsza praca skupia się na optymalizacji obu tych procesów, ze szczególnym naciskiem na minimalizację kosztów obliczeniowych podczas ciągłej autoryzacji zapytań sieciowych.
 
-\section{Protokół HTTP i problem braku stanu}
+\subsection{Protokół HTTP i problem braku stanu}
 
 Protokół HTTP (ang. \textit{Hypertext Transfer Protocol}), będący fundamentem komunikacji w sieci Web, z definicji jest protokołem bezstanowym (ang. \textit{Stateless}). Oznacza to, że każde żądanie wysyłane przez klienta do serwera traktowane jest jako całkowicie niezależna operacja. Serwer na poziomie sieciowym nie przechowuje żadnych informacji o poprzednich interakcjach z danym klientem.
 
 Z inżynierskiego punktu widzenia bezstanowość HTTP jest jego ogromną zaletą. Pozwala ona na szybkie obsługiwanie tysięcy jednoczesnych połączeń bez drastycznego przyrostu zużycia pamięci operacyjnej (RAM) serwera. Wymusza to jednak na twórcach oprogramowania aplikacyjnego budowę mechanizmów, które do każdego żądania dołączą dowód tożsamości użytkownika.
 
-\section{Ewolucja: Od sesji stanowych do bezstanowych tokenów}
+\subsection{Ewolucja: Od sesji stanowych do bezstanowych tokenów}
 
 Początkowo standardem utrzymywania ciągłości pracy użytkownika było podejście oparte na sesjach (ang. \textit{Session-based Authentication}). W tym modelu serwer, po zweryfikowaniu hasła, alokował w swojej pamięci operacyjnej obiekt sesji, a klientowi odsyłał jedynie krótki identyfikator (tzw. \textit{Session ID}) za pomocą mechanizmu ciasteczek (ang. \textit{Cookies}). Przeglądarka automatycznie dołączała ten identyfikator do kolejnych zapytań, a serwer za każdym razem musiał przeszukiwać swoją pamięć lub bazę danych, aby upewnić się, że sesja jest nadal ważna.
 
@@ -91,7 +91,7 @@ Jak widać na schemacie, podejście oparte na tokenach całkowicie odciąża baz
 
 \clearpage
 
-\section{Anatomia standardu JSON Web Token (JWT)}
+\subsection{Anatomia standardu JSON Web Token (JWT)}
 
 Najpopularniejszym rynkowym formatem tokenu jest standard JWT (zdefiniowany w dokumencie RFC 7519). Klasyczny token JWT to długi ciąg znaków (często przekraczający 500 bajtów), który składa się z trzech części oddzielonych kropkami:
 
@@ -117,7 +117,7 @@ Najpopularniejszym rynkowym formatem tokenu jest standard JWT (zdefiniowany w do
 
 Krytyczna analiza tego standardu uwidacznia jego redundancję w zamkniętych środowiskach mikroserwisowych. Przesyłanie w każdym pojedynczym żądaniu nagłówka informującego o typie algorytmu jest zbędnym narzutem danych, ponieważ aplikacja odczytująca token posiada już tę wiedzę z własnej konfiguracji wewnętrznej. Ponadto, tekstowy zapis ról potęguje objętość ładunku. Wyeliminowanie tych nadmiarowych elementów stało się główną motywacją do stworzenia autorskiego formatu opisanego w niniejszej pracy.
 
-\section{Paradygmat Inversion of Control i mechanizm DI}
+\subsection{Paradygmat Inversion of Control i mechanizm DI}
 
 Zastosowany stos technologiczny wymusza na programistach przestrzeganie dobrych praktyk projektowych. Jednym z najważniejszych paradygmatów zastosowanych w architekturze biblioteki jest odwrócenie sterowania (ang. \textit{Inversion of Control} -- IoC) realizowane poprzez wzorzec Wstrzykiwania Zależności (ang. \textit{Dependency Injection} -- DI). 
 
@@ -125,7 +125,7 @@ Zasada ta jest bezpośrednio powiązana z literą "D" w akronimie SOLID (ang. \t
 
 W ekosystemie ASP.NET Core wbudowany kontener DI samodzielnie zarządza cyklem życia obiektów. Rozwiązanie to jest krytyczne dla autorskiego systemu autoryzacji, ponieważ zapewnia mu wymaganą hermetyzację, wysoką testowalność (łatwe wstrzykiwanie atrap – tzw. mocków) oraz modułowość pozwalającą na integrację z dowolnym środowiskiem sieciowym.
 
-\section{Środowisko uruchomieniowe i persystencja danych}
+\subsection{Środowisko uruchomieniowe i persystencja danych}
 
 Do realizacji projektu wybrano środowisko uruchomieniowe \textbf{.NET} oraz język \textbf{C\#}. Platforma ta, rozwijana przez firmę Microsoft, stanowi obecnie jeden z najbardziej zaawansowanych i wydajnych ekosystemów do budowy wielowątkowych aplikacji serwerowych (Web API).
 
@@ -134,11 +134,11 @@ Istotnym elementem architektury jest warstwa persystencji danych. Interakcja z r
 Wykorzystanie EF Core pozwala na operowanie na bazie bez konieczności pisania jawnych zapytań w języku SQL. Kodowanie odbywa się przy pomocy składni LINQ (ang. \textit{Language Integrated Query}), a framework automatycznie tłumaczy te komendy na bezpieczny i zoptymalizowany pod dany silnik dialekt SQL. Użycie tego narzędzia automatycznie zabezpiecza autorski system autoryzacji przed jednym z najgroźniejszych ataków sieciowych – \textit{SQL Injection} – ponieważ wszystkie wartości wstawiane do bazy są domyślnie traktowane jako parametryzowane dane wejściowe.
 \clearpage
 
-\chapter{Projekt i architektura systemu}
+\section{Projekt i architektura systemu}
 
 Architektura omawianego systemu została zoptymalizowana pod kątem redukcji narzutu sieciowego oraz błyskawicznej walidacji. W tym rozdziale zaprezentowano projekt mechanizmów wewnętrznych, sformalizowane modele matematyczne algorytmów oraz przepływy procesów. Zgodnie z dobrymi praktykami dokumentacji architektonicznej, celowo pominięto na tym etapie bezpośrednie implementacje kodowe, skupiając się na logice systemowej.
 
-\section{Koncepcja autorskiego tokenu}
+\subsection{Koncepcja autorskiego tokenu}
 
 W przeciwieństwie do powszechnych standardów, autorski token został zaprojektowany z myślą o minimalizacji przesyłanych bajtów. Jest to ciąg znaków składający się zaledwie z dwóch segmentów: ładunku ($B$) zawierającego właściwe oświadczenia i dane użytkownika oraz sumy kontrolnej ($S$). 
 
@@ -156,7 +156,7 @@ gdzie:
 
 Kluczowym zabiegiem inżynieryjnym w tym równaniu jest użycie algorytmu \textbf{Base64Url} zamiast standardowego Base64. Standardowe kodowanie wprowadza znaki takie jak \texttt{+} oraz \texttt{/}, które posiadają specjalne znaczenie w adresach URL i nagłówkach HTTP (mogą prowadzić do błędów parsowania). Base64Url zastępuje je odpowiednio znakami \texttt{-} (myślnik) oraz \texttt{\_} (podkreślenie), a także usuwa znaki dopełnienia \texttt{=}, co gwarantuje pełną kompatybilność protokołu sieciowego.
 
-\section{Algorytm podpisu cyfrowego}
+\subsection{Algorytm podpisu cyfrowego}
 
 Bezpieczeństwo systemu opiera się na zapewnieniu integralności i niezaprzeczalności emitowanych poświadczeń. Do generowania sumy kontrolnej ($S$) wykorzystano algorytm symetryczny HMAC (ang. \textit{Keyed-Hash Message Authentication Code}) w oparciu o silną funkcję skrótu SHA-256. 
 
@@ -181,13 +181,13 @@ Przepływ danych w procesie generowania tokenu, od momentu pobrania obiektu po u
     \label{fig:token_crypto_flow}
 \end{figure}
 
-\section{Weryfikacja tokenu i integralność}
+\subsection{Weryfikacja tokenu i integralność}
 
 Zrozumienie procesu weryfikacji jest kluczowe z perspektywy bezpieczeństwa. Weryfikacja nie polega na kryptograficznym "odszyfrowywaniu" sumy kontrolnej, lecz na procesie jej reprodukcji.
 
 Kiedy serwer odbiera token z żądania HTTP, rozdziela go używając znaku kropki jako separatora. Następnie, korzystając z przechwyconego ładunku $P$ oraz własnego klucza symetrycznego $K$, ponownie wykonuje funkcję $\text{HMAC}_{\text{SHA256}}$. Jeśli nowo wyliczona sygnatura $\sigma'$ jest matematycznie tożsama z sygnaturą $\sigma$ nadesłaną przez klienta ($\sigma' == \sigma$), serwer nabiera pewności, że dane nie uległy manipulacji. Ewentualna zmiana choćby jednego bitu w ładunku (np. próba zmiany identyfikatora roli) spowoduje drastyczną zmianę wyliczonego skrótu zjawiskiem lawinowym (ang. \textit{Avalanche Effect}), co poskutkuje natychmiastowym odrzuceniem żądania HTTP z kodem 401 Unauthorized.
 
-\section{Zarządzanie rolami przy użyciu masek bitowych}
+\subsection{Zarządzanie rolami przy użyciu masek bitowych}
 
 Największą innowacją zaprojektowanego systemu jest całkowite odejście od tekstowej reprezentacji uprawnień. Model ten opiera się na matematycznej teorii zbiorów oraz systemie wag dwójkowych.
 
@@ -206,7 +206,7 @@ $$ (M \text{ AND } 2^{ID_{req}}) \neq 0 $$
 
 Działanie to omija kosztowną alokację pamięci, czyniąc proces weryfikacji niezwykle wydajnym.
 
-\section{Analiza złożoności obliczeniowej i pamięciowej}
+\subsection{Analiza złożoności obliczeniowej i pamięciowej}
 
 Sformalizowanie ról do postaci masek bitowych przynosi wymierne korzyści, co można udowodnić za pomocą notacji asymptotycznej (\textit{Big O Notation}). 
 
@@ -214,7 +214,7 @@ W standardowym podejściu (klasyczny JWT), role weryfikowane są poprzez iteracy
 
 W mechanizmie autorskim, po początkowym zdekodowaniu krótkiej maski szesnastkowej, proces walidacji sprowadza się do wywołania operatorów sprzętowych procesora. Złożoność obliczeniowa porównania bitowego, bez względu na wielkość słownika ról w systemie, jest stała i wynosi zawsze $\boldsymbol{O(1)}$. Złożoność pamięciowa została zredukowana do alokacji pojedynczych zmiennych typów prostych (ang. \textit{Value Types}).
 
-\section{Cykl życia sesji i rotacja tokenów odświeżających}
+\subsection{Cykl życia sesji i rotacja tokenów odświeżających}
 
 Krótki czas życia tokenu dostępowego (zazwyczaj od kilku do kilkunastu minut) stanowi fundament bezpieczeństwa w modelu bezstanowym. Ograniczenie to drastycznie minimalizuje okno czasowe, w którym przechwycony token mógłby posłużyć do wyrządzenia szkód w systemie.
 
@@ -222,7 +222,7 @@ Aby zapewnić ciągłość pracy bez wymuszania na użytkowniku ciągłego wpisy
 
 Gdy token dostępowy traci ważność, aplikacja kliencka wysyła na dedykowany punkt końcowy token odświeżający. Jest to jedyny etap, w którym system wykonuje operację stanową (odpytuje relacyjną bazę danych). Po zweryfikowaniu kryptograficznym serwer upewnia się, że token istnieje w bazie i nie uległ przedawnieniu. Jeśli weryfikacja powiedzie się, stary token jest bezzwłocznie usuwany, a system emituje nową parę kluczy (nowy Access Token oraz nowy Refresh Token). Mechanizm ten gwarantuje, że skradziony token odświeżający będzie dla atakującego jednorazowy – gdy tylko prawowity użytkownik wygeneruje nową sesję, stary identyfikator zostanie bezpowrotnie unieważniony.
 
-\section{Diagram klas: Warstwa danych}
+\subsection{Diagram klas: Warstwa danych}
 
 Z uwagi na zastosowanie wzorców inżynieryjnych system podzielono na logiczne pakiety, co zilustrowano za pomocą graficznej notacji UML. Rysunek \ref{fig:class_entities} prezentuje encje bazodanowe mapujące obiekty C\# na struktury relacyjne bazy. Widoczne jest powiązanie użytkownika z odpowiednimi tokenami odświeżającymi (relacja jeden-do-wielu), oraz przypisanie uprawnień poprzez tabelę asocjacyjną \texttt{UserRole}.
 
@@ -233,7 +233,7 @@ Z uwagi na zastosowanie wzorców inżynieryjnych system podzielono na logiczne p
     \label{fig:class_entities}
 \end{figure}
 
-\section{Diagram klas: Kontrakty i modele}
+\subsection{Diagram klas: Kontrakty i modele}
 
 Rysunek \ref{fig:class_contracts} obrazuje obiekty transferu danych (DTO), takie jak model \texttt{Token} oraz jego zagnieżdżone elementy. Separacja abstrakcyjnych interfejsów (np. \texttt{IHashingService}) od ich implementacji fizycznych jest strukturalnym wymogiem obsługi wbudowanego kontenera Wstrzykiwania Zależności.
 
@@ -244,7 +244,7 @@ Rysunek \ref{fig:class_contracts} obrazuje obiekty transferu danych (DTO), takie
     \label{fig:class_contracts}
 \end{figure}
 
-\section{Diagram klas: Logika i punkty dostępu}
+\subsection{Diagram klas: Logika i punkty dostępu}
 
 Ostatni schemat statyczny (Rysunek \ref{fig:class_services}) skupia się na relacjach operacyjnych w warstwie biznesowej. Obrazuje zależność między wbudowanymi filtrami autoryzacyjnymi przechwytującymi żądania HTTP, a wstrzykiwanymi do nich implementacjami serwisów przetwarzającymi maski bitowe.
 
@@ -257,7 +257,7 @@ Ostatni schemat statyczny (Rysunek \ref{fig:class_services}) skupia się na rela
 
 \clearpage
 
-\section{Diagram przypadków użycia}
+\subsection{Diagram przypadków użycia}
 
 Zidentyfikowano trzech głównych aktorów wchodzących w interakcję z modułem (gość, użytkownik zalogowany, administrator). Jak zobrazowano na Rysunku \ref{fig:usecase_diagram}, architektura opiera się na dziedziczeniu uprawnień, gdzie wyższy poziom dostępu wchłania kompetencje poziomu niższego, odblokowując zarazem administracyjne punkty dostępowe.
 
@@ -268,7 +268,7 @@ Zidentyfikowano trzech głównych aktorów wchodzących w interakcję z modułem
     \label{fig:usecase_diagram}
 \end{figure}
 
-\section{Diagram sekwencji weryfikacji uprawnień}
+\subsection{Diagram sekwencji weryfikacji uprawnień}
 
 Sekwencyjny przepływ weryfikacji dostępu przedstawiono na Rysunku \ref{fig:sequence_diagram}. Proces ten aktywuje się w momencie dotarcia żądania HTTP do serwera, tuż przed wywołaniem właściwej logiki domenowej. Przedstawiono w nim cykl życia walidacji: od weryfikacji kryptograficznej, przez dekodowanie matematycznej maski ról, aż po ostateczne przerwanie lub kontynuację potoku wykonawczego.
 
@@ -281,11 +281,11 @@ Sekwencyjny przepływ weryfikacji dostępu przedstawiono na Rysunku \ref{fig:seq
 
 \clearpage
 
-\chapter{Implementacja rozwiązania}
+\section{Implementacja rozwiązania}
 
 Mając na uwadze przygotowany w poprzednim rozdziale teoretyczny model architektury, przystąpiono do właściwego programowania w języku C\#. Zgodnie z wytycznymi czystego kodu (ang. \textit{Clean Code}) oraz zasady rzemiosła oprogramowania (ang. \textit{Software Craftsmanship}), w tej części pracy zaprezentowano wyłącznie wyselekcjonowane, kluczowe fragmenty kodu źródłowego. Zrezygnowano z przytaczania pełnych klas na rzecz wnikliwej analizy mechanizmów autoryzacyjnych.
 
-\section{Logika biznesowa i potok ASP.NET Core}
+\subsection{Logika biznesowa i potok ASP.NET Core}
 
 Zanim użytkownik uzyska dostęp do chronionych zasobów, aplikacja musi przetworzyć jego zapytanie. Architektura platformy ASP.NET Core opiera się na potoku przetwarzania (ang. \textit{Request Pipeline}), zbudowanym z oprogramowania pośredniczącego (\textit{Middleware}) oraz filtrów. Nasz autorski system wstrzykuje swoją logikę decyzyjną dokładnie w ten potok, tuż przed przekazaniem sterowania do kontrolera biznesowego aplikacji, co zilustrowano na Rysunku \ref{fig:aspnet_pipeline}.
 
@@ -298,7 +298,7 @@ Zanim użytkownik uzyska dostęp do chronionych zasobów, aplikacja musi przetwo
 
 Zanim jednak filtr będzie mógł zwalidować żądanie (jak pokazano na schemacie), użytkownik musi najpierw wygenerować cyfrowe poświadczenie autentyczności, komunikując się z dedykowanym serwisem logowania.
 
-\section{Proces logowania i generowania tokenów}
+\subsection{Proces logowania i generowania tokenów}
 
 Serwis \texttt{LoginService} to główny punkt wejścia dla niezalogowanych użytkowników. Po poprawnej weryfikacji hasła system orkiestruje proces budowy i podpisywania poświadczeń. Użyto tu asynchronicznego dostępu do bazy danych, aby nie blokować głównego wątku serwera. Poniższy fragment ukazuje proces tworzenia zunifikowanego obiektu DTO (ang. \textit{Data Transfer Object}) zawierającego parę tokenów.
 
@@ -332,7 +332,7 @@ public async Task<CombinedToken?> Login(string login, string password)
 
 Analizując powyższy kod, należy zwrócić uwagę na wykorzystanie wstrzykniętych zależności. Serwis \texttt{\_roleService} przejmuje na siebie ciężar transformacji listy ról na format szesnastkowy (kompresja ról). Na samym końcu wywoływana jest metoda \texttt{Hash}, która zamienia struktury obiektowe C\# na docelowe ciągi znaków (ciągi zabezpieczone HMAC-SHA256).
 
-\section{Implementacja odświeżania sesji i rotacji tokenów}
+\subsection{Implementacja odświeżania sesji i rotacji tokenów}
 
 Zgodnie z wymaganiami architektonicznymi, czas życia wydanego tokenu (\texttt{TokenExpirationTime}) jest krótki. Proces podtrzymywania sesji znajduje się wewnątrz metody \texttt{Refresh}. Przyjmuje ona wygasający token odświeżający i implementuje proces rotacji kluczy w sposób bezpieczny.
 
@@ -367,7 +367,7 @@ public async Task<CombinedToken?> Refresh(string refreshTokenString)
 }
 \end{verbatim}
 
-\section{Dynamiczne rozszerzanie ładunku (Custom Payload)}
+\subsection{Dynamiczne rozszerzanie ładunku (Custom Payload)}
 
 Aby stworzona biblioteka mogła funkcjonować jako uniwersalne narzędzie typu \textit{Plug and Play} w dowolnym projekcie, nie mogła ograniczać się wyłącznie do przechowywania ID użytkownika i ról. Zastosowano wzorzec strategii z wykorzystaniem delegatów \texttt{Func} zdefiniowanych w języku C\#. 
 
@@ -392,7 +392,7 @@ public async Task<object> GetCustomTokenData(Guid userId)
 
 \clearpage
 
-\section{Automatyzacja zarządzania rolami (Refleksja)}
+\subsection{Automatyzacja zarządzania rolami (Refleksja)}
 
 Mechanizm operacji bitowych do weryfikacji ról jest wysoce zoptymalizowany, ale wymusza, by każda rola posiadała unikalny, sekwencyjny identyfikator numeryczny. Aby zdjąć z dewelopera obowiązek ręcznego uzupełniania bazy danych po dopisaniu nowej roli w kodzie, zaimplementowano tło asynchroniczne – \texttt{RoleBootstrapper}. 
 
@@ -424,7 +424,7 @@ protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 
 Dzięki takiemu architektonicznemu podejściu system ról uczy się i adaptuje całkowicie samoczynnie (tzw. mechanizm \textit{Self-Discovery}).
 
-\section{Implementacja kryptografii i ochrona Timing Attack}
+\subsection{Implementacja kryptografii i ochrona Timing Attack}
 
 Serwis \texttt{HashingService} realizuje logiczny proces powstawania skrótu HMAC. To właśnie w tym miejscu standardowy ciąg Base64 pozbawiany jest znaków kłopotliwych dla nawigacji HTTP.
 
@@ -455,7 +455,7 @@ private static string CreateSignature(string unsignedToken, string secret)
 }
 \end{verbatim}
 
-\section{Filtr autoryzacyjny potoku HTTP}
+\subsection{Filtr autoryzacyjny potoku HTTP}
 
 Zwieńczeniem całego systemu jest przechwytywanie zapytań (zaprezentowane na schemacie \ref{fig:aspnet_pipeline}). Rdzeniem decyzyjnym jest klasa \texttt{AllowRoleFilter}, będąca implementacją \texttt{IAsyncAuthorizationFilter}.
 
@@ -486,11 +486,11 @@ public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
 }
 \end{verbatim}
 
-\chapter{Analiza bezpieczeństwa i testowanie}
+\section{Analiza bezpieczeństwa i testowanie}
 
 Istotnym etapem cyklu życia oprogramowania nastawionego na autoryzację jest empiryczna walidacja jego podatności. Rozdział ten skupia się na ocenie zaprojektowanego systemu przez pryzmat uznanego w branży standardu OWASP Top 10, szczegółowym omówieniu zautomatyzowanych testów bezpieczeństwa oraz nakreśleniu perspektyw dalszego rozwoju w aspektach, które wykraczały poza ramy obecnej iteracji prac.
 
-\section{Zgodność ze standardem OWASP Top 10}
+\subsection{Zgodność ze standardem OWASP Top 10}
 
 OWASP Top 10 to najpopularniejszy, globalny dokument uświadamiający zagrożenia bezpieczeństwa aplikacji internetowych. Biblioteka autoryzacyjna została zaprojektowana w oparciu o ideę \textit{Security by Design}, co ogranicza ekspozycję na najczęstsze z klasyfikowanych podatności:
 
@@ -502,7 +502,7 @@ OWASP Top 10 to najpopularniejszy, globalny dokument uświadamiający zagrożeni
     \item \textbf{Security Misconfiguration (Błędy konfiguracji zabezpieczeń):} Biblioteka wymusza na programiście dostarczenie klucza szyfrującego z poziomu konfiguracji zewnętrznej (poprzez wstrzyknięcie obiektu \texttt{AJTOptions}). Wymusza to odseparowanie kluczy od kodu źródłowego, chroniąc przed ich przypadkowym ujawnieniem w repozytoriach publicznych (np. GitHub).
 \end{itemize}
 
-\section{Zautomatyzowane testy bezpieczeństwa (Security Unit Testing)}
+\subsection{Zautomatyzowane testy bezpieczeństwa (Security Unit Testing)}
 
 Najbardziej newralgicznym elementem zaprojektowanej architektury jest weryfikacja kryptograficzna podpisu, od której zależy ostateczne zaufanie do zawartości tokenu. Błąd na tym etapie skutkowałby całkowitym przełamaniem systemu autoryzacji. Aby udowodnić nienaruszalność mechanizmu, kod poddano rygorystycznym testom jednostkowym z wykorzystaniem frameworka \textit{xUnit} oraz biblioteki \textit{FluentAssertions}.
 
@@ -576,7 +576,7 @@ public void VerifyHash_GivenMalformedFormat_ShouldReturnFalse(string malformedIn
 }
 \end{verbatim}
 
-\section{Ograniczenia systemu i obszary dalszego rozwoju}
+\subsection{Ograniczenia systemu i obszary dalszego rozwoju}
 
 Świadomość ograniczeń wyprodukowanego kodu stanowi miarę inżynierskiej dojrzałości projektu. Choć system spełnia założenia optymalizacyjne w zakresie objętości danych, jego implementacja pozostawia pole do rozbudowy w przyszłych iteracjach badawczych. 
 
@@ -588,14 +588,12 @@ public void VerifyHash_GivenMalformedFormat_ShouldReturnFalse(string malformedIn
 
 \clearpage
 
-\chapter{Podsumowanie}
+\section{Podsumowanie}
 
 Głównym celem niniejszej pracy inżynierskiej było zaprojektowanie i zaimplementowanie autorskiego, zoptymalizowanego systemu uwierzytelniania i autoryzacji dla aplikacji opartych o środowisko ASP.NET Core. Poprzez analizę powszechnie stosowanych technologii sieciowych oraz wymagań współczesnych norm bezpieczeństwa, udowodniono skuteczność paradygmatu \textit{Zero Trust} wspomaganego szybkimi, bezstanowymi tokenami.
 
 Opracowana biblioteka pomyślnie rozwiązuje problem strukturalnego narzutu przesyłowych danych obecnego w popularnym standardzie JWT. Eliminacja nieużywanych metadanych oraz innowacyjne, oparte na konwersji bitowej podejście do interpretowania złożonych struktur ról użytkowników zaowocowały miniaturyzacją autoryzacyjnych żądań sieciowych. Wykorzystanie warstwy abstrakcji programistycznej, zgodnej z wzorcami wstrzykiwania zależności, umożliwiło zamknięcie całej złożoności w zgrabnym, hermetycznym module o minimalnym progu wejścia (ang. \textit{low entry barrier}) dla przyszłych programistów. 
 
 Przeprowadzona analiza testowa w oparciu o globalne wytyczne OWASP potwierdziła, że kompresja algorytmów nie wpłynęła na obniżenie parametrów zabezpieczeń kryptograficznych. Choć uwypuklono obszary do potencjalnej kontynuacji badań technologicznych – takie jak implementacja natywnych rozwiązań pamięci podręcznej dla autoryzacji czy kluczy asymetrycznych – wykreowane rozwiązanie spełnia zadane wymogi inżynierskie i stanowi w pełni funkcjonalną alternatywę autoryzacyjną dla systemów o klasycznym i mikroserwisowym profilu architektonicznym.
-
-\beforelastpage
 
 \end{document}

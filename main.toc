@@ -1,47 +1,34 @@
-\contentsline {section}{\numberline {1}Wstęp}{3}{}%
-\contentsline {subsection}{\numberline {1.1}Rys historyczny i ewolucja mechanizmów uwierzytelniania}{3}{}%
-\contentsline {subsection}{\numberline {1.2}Protokół HTTP a bezstanowość}{3}{}%
-\contentsline {subsection}{\numberline {1.3}Koncepcja autoryzacji opartej na tokenach}{3}{}%
-\contentsline {subsection}{\numberline {1.4}Anatomia standardu JSON Web Token (JWT)}{3}{}%
-\contentsline {subsection}{\numberline {1.5}Cel pracy}{4}{}%
-\contentsline {subsection}{\numberline {1.6}Skład pracy}{4}{}%
-\contentsline {section}{\numberline {2}Projekt i architektura systemu autoryzacji}{5}{}%
-\contentsline {subsection}{\numberline {2.1}Koncepcja tokenu autoryzacyjnego}{5}{}%
-\contentsline {subsection}{\numberline {2.2}Warstwa danych i abstrakcja bazy}{5}{}%
-\contentsline {subsubsection}{\numberline {2.2.1}Definicje modeli encji}{5}{}%
-\contentsline {section}{\numberline {3}Mechanizmy kryptograficzne i integralność danych}{7}{}%
-\contentsline {subsection}{\numberline {3.1}Algorytm podpisu cyfrowego}{7}{}%
-\contentsline {subsection}{\numberline {3.2}Implementacja serwisu haszującego}{7}{}%
-\contentsline {subsection}{\numberline {3.3}Weryfikacja tokenu}{9}{}%
-\contentsline {subsection}{\numberline {3.4}Diagram przypadków użycia}{9}{}%
-\contentsline {subsection}{\numberline {3.5}Diagram sekwencji: Przepływ autoryzacji}{10}{}%
-\contentsline {subsection}{\numberline {3.6}Struktura implementacyjna i organizacja kodu}{11}{}%
-\contentsline {subsection}{\numberline {3.7}Zastosowanie wzorca wstrzykiwania zależności}{11}{}%
-\contentsline {subsection}{\numberline {3.8}Diagramy klas systemu}{12}{}%
-\contentsline {subsubsection}{\numberline {3.8.1}Warstwa danych (Persystencja)}{12}{}%
-\contentsline {subsubsection}{\numberline {3.8.2}Warstwa kontraktów i modeli wymiany danych}{13}{}%
-\contentsline {subsubsection}{\numberline {3.8.3}Warstwa implementacji logiki i punktów dostępu}{13}{}%
-\contentsline {subsection}{\numberline {3.9}Mechanizm zarządzania rolami}{14}{}%
-\contentsline {subsubsection}{\numberline {3.9.1}Przykład konwersji uprawnień na maskę bitową}{14}{}%
-\contentsline {subsection}{\numberline {3.10}Algorytmika obsługi ról bitowych}{14}{}%
-\contentsline {subsection}{\numberline {3.11}Logika biznesowa i potok autoryzacji}{16}{}%
-\contentsline {subsection}{\numberline {3.12}Proces logowania i generowania tokenów}{16}{}%
-\contentsline {subsection}{\numberline {3.13}Dynamiczne rozszerzanie ładunku tokenu}{17}{}%
-\contentsline {subsection}{\numberline {3.14}Automatyzacja zarządzania uprawnieniami (RoleBootstrapper)}{17}{}%
-\contentsline {subsection}{\numberline {3.15}Implementacja potoku autoryzacji HTTP}{17}{}%
-\contentsline {section}{\numberline {4}Zastosowanie praktyczne w warstwie API}{19}{}%
-\contentsline {subsection}{\numberline {4.1}Implementacja kontrolera testowego}{19}{}%
-\contentsline {section}{\numberline {5}Instalacja i konfiguracja biblioteki}{20}{}%
-\contentsline {subsection}{\numberline {5.1}Dodanie referencji i inicjalizacja}{20}{}%
-\contentsline {subsection}{\numberline {5.2}Parametry konfiguracyjne (AJTOptions)}{21}{}%
-\contentsline {subsection}{\numberline {5.3}Konfiguracja zaawansowana (AJTConfigurator)}{21}{}%
-\contentsline {section}{\numberline {6}Analiza bezpieczeństwa i porównanie z rozwiązaniami rynkowymi}{22}{}%
-\contentsline {subsection}{\numberline {6.1}Ocena bezpieczeństwa i obszary do optymalizacji}{22}{}%
-\contentsline {subsection}{\numberline {6.2}Porównanie z samodzielną implementacją JWT}{22}{}%
-\contentsline {subsection}{\numberline {6.3}Porównanie z systemem Keycloak}{23}{}%
-\contentsline {subsection}{\numberline {6.4}Zestawienie analityczne cech}{23}{}%
-\contentsline {subsection}{\numberline {6.5}Wnioski częściowe}{23}{}%
-\contentsline {section}{\numberline {7}Podsumowanie i kierunki dalszego rozwoju}{24}{}%
-\contentsline {subsection}{\numberline {7.1}Realizacja założeń projektowych}{24}{}%
-\contentsline {subsection}{\numberline {7.2}Perspektywy rozwoju}{24}{}%
-\contentsline {subsection}{\numberline {7.3}Słowo końcowe}{24}{}%
+\contentsline {section}{Słownik pojęć}{3}{Doc-Start}%
+\contentsline {chapter}{\numberline {1}Wstęp}{5}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Przegląd technologii i stan wiedzy}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Uwierzytelnianie a autoryzacja}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Protokół HTTP i problem braku stanu}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Ewolucja: Od sesji stanowych do bezstanowych tokenów}{6}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Anatomia standardu JSON Web Token (JWT)}{9}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Paradygmat Inversion of Control i mechanizm DI}{9}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Środowisko uruchomieniowe i persystencja danych}{10}{section.2.6}%
+\contentsline {chapter}{\numberline {3}Projekt i architektura systemu}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Koncepcja autorskiego tokenu}{11}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Algorytm podpisu cyfrowego}{11}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Weryfikacja tokenu i integralność}{12}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Zarządzanie rolami przy użyciu masek bitowych}{13}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Analiza złożoności obliczeniowej i pamięciowej}{13}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Cykl życia sesji i rotacja tokenów odświeżających}{14}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Diagram klas: Warstwa danych}{14}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Diagram klas: Kontrakty i modele}{15}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Diagram klas: Logika i punkty dostępu}{15}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Diagram przypadków użycia}{16}{section.3.10}%
+\contentsline {section}{\numberline {3.11}Diagram sekwencji weryfikacji uprawnień}{16}{section.3.11}%
+\contentsline {chapter}{\numberline {4}Implementacja rozwiązania}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Logika biznesowa i potok ASP.NET Core}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Proces logowania i generowania tokenów}{18}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Implementacja odświeżania sesji i rotacji tokenów}{19}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Dynamiczne rozszerzanie ładunku (Custom Payload)}{20}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Automatyzacja zarządzania rolami (Refleksja)}{21}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Implementacja kryptografii i ochrona Timing Attack}{21}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Filtr autoryzacyjny potoku HTTP}{22}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Analiza bezpieczeństwa i testowanie}{23}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Zgodność ze standardem OWASP Top 10}{23}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Zautomatyzowane testy bezpieczeństwa (Security Unit Testing)}{23}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Ograniczenia systemu i obszary dalszego rozwoju}{25}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Podsumowanie}{26}{chapter.6}%
