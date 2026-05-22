@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Channels;
 
 namespace AJT.Services
 {
@@ -45,7 +44,10 @@ namespace AJT.Services
             string signature = parts[1];
             string expectedSignature = CreateSignature(unsignedToken, _options.Value.Secret);
 
-            return signature == expectedSignature;
+            var signatureBytes = Encoding.UTF8.GetBytes(signature);
+            var expectedBytes = Encoding.UTF8.GetBytes(expectedSignature);
+
+            return CryptographicOperations.FixedTimeEquals(signatureBytes, expectedBytes);
         }
 
         public string DecodePayload(string hashedToken)

@@ -7,5 +7,6 @@ namespace AJT.Contracts
         Task AddRefreshToken(RefreshToken refreshToken);
         Task<RefreshToken?> GetRefreshTokenForUserId(Guid userId);
         Task InvalidateRefreshToken(RefreshToken refreshToken);
+        Task Remove(RefreshToken refreshToken);
     }
 }

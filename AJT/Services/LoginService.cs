@@ -52,20 +52,24 @@ namespace AJT.Services
             {
                 var json = _hashingService.DecodePayload(refreshTokenString);
                 refreshToken = JsonConvert.DeserializeObject<RefreshToken>(json);
-                if (refreshToken is null)
-                    return null;
+                if (refreshToken is null) return null;
             }
             catch
             {
                 return null;
             }
 
-            if (refreshToken.ExpirationDate < DateTime.Now)
+            using var scope = _scopeFactory.CreateScope();
+            var refreshRepo = scope.ServiceProvider.GetRequiredService<IRefreshTokenRepo>();
+
+            var dbToken = await refreshRepo.GetRefreshTokenForUserId(refreshToken.UserId);
+            if (dbToken is null || dbToken.ExpirationDate < DateTime.Now)
                 return null;
 
-            using var scope = _scopeFactory.CreateScope();
+            await refreshRepo.Remove(dbToken);
+
             var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepo>();
-            var user = await userRepo.GetUserById(refreshToken.UserId);
+            var user = await userRepo.GetUserById(dbToken.UserId);
 
             if (user is null)
                 return null;
@@ -126,8 +130,6 @@ namespace AJT.Services
                 ExpirationDate = DateTime.Now.Add(_options.Value.RefreshTokenExpirationTime)
             };
             await refreshTokenRepo.AddRefreshToken(refreshToken);
-
-            Console.WriteLine(JsonConvert.SerializeObject(token));
 
             return new CombinedToken
             {

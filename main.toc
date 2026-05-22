@@ -21,14 +21,19 @@
 \contentsline {section}{\numberline {3.11}Diagram sekwencji weryfikacji uprawnień}{16}{section.3.11}%
 \contentsline {chapter}{\numberline {4}Implementacja rozwiązania}{18}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Logika biznesowa i potok ASP.NET Core}{18}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Proces logowania i generowania tokenów}{18}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Implementacja odświeżania sesji i rotacji tokenów}{19}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Dynamiczne rozszerzanie ładunku (Custom Payload)}{20}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Automatyzacja zarządzania rolami (Refleksja)}{21}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Implementacja kryptografii i ochrona Timing Attack}{21}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Filtr autoryzacyjny potoku HTTP}{22}{section.4.7}%
-\contentsline {chapter}{\numberline {5}Analiza bezpieczeństwa i testowanie}{23}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Zgodność ze standardem OWASP Top 10}{23}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Zautomatyzowane testy bezpieczeństwa (Security Unit Testing)}{23}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Ograniczenia systemu i obszary dalszego rozwoju}{25}{section.5.3}%
-\contentsline {chapter}{\numberline {6}Podsumowanie}{26}{chapter.6}%
+\contentsline {section}{\numberline {4.2}Rejestracja i bezpieczne przechowywanie haseł}{18}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Proces logowania i weryfikacji tożsamości}{19}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Implementacja odświeżania sesji i rotacji tokenów}{20}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Konfiguracja i dynamiczne rozszerzanie ładunku (Custom Payload)}{21}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Automatyzacja zarządzania i migracja ról (Bootstrapper)}{23}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Dynamiczne skanowanie atrybutów}{24}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Proces bezpiecznej migracji uprawnień}{24}{subsection.4.6.2}%
+\contentsline {section}{\numberline {4.7}Implementacja operacji kryptograficznych i ochrona przed atakami}{25}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Filtry potoku HTTP i weryfikacja tożsamości}{27}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Zaawansowana autoryzacja oparta o role}{28}{section.4.9}%
+\contentsline {chapter}{\numberline {5}Analiza bezpieczeństwa i testowanie}{31}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Zgodność ze standardem OWASP Top 10}{31}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Automatyzacja testów bezpieczeństwa kryptograficznego}{32}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Analiza wydajnościowa i narzut obliczeniowy}{33}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Ograniczenia systemu i obszary dalszego rozwoju}{34}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Podsumowanie}{35}{chapter.6}%

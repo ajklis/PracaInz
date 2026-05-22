@@ -1,6 +1,5 @@
 using AJT;
 using AJT.Contracts;
-using API.Services;
 
 namespace API
 {
@@ -45,7 +44,12 @@ namespace API
 
         static async Task<object> AddInfo(Guid userId, IServiceProvider services)
         {
-            return "siema";
+            using var scope = services.CreateScope();
+
+            var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepo>();
+            var user = await userRepo.GetUserById(userId);
+
+            return new { Department = "IT", AccessLevel = 1, Name = user.Username };
         }
 
         static List<string> GenerateRoles()

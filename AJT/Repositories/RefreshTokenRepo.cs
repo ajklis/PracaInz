@@ -31,5 +31,11 @@ namespace AJT.Repositories
             _db.RefreshTokens.Update(refreshToken);
             await _db.SaveChangesAsync();
         }
+
+        public async Task Remove(RefreshToken refreshToken)
+        {
+            _db.RefreshTokens.Remove(refreshToken);
+            await _db.SaveChangesAsync();
+        }
     }
 }
