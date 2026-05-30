@@ -13,22 +13,6 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usepackage{needspace}
-\usepackage{listings}
-\usepackage{xcolor}
-
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
-
-\lstset{
-    backgroundcolor=\color{backcolour}, 
-    basicstyle=\ttfamily\footnotesize,  
-    breaklines=true,
-    frame=single,
-    numbers=left,
-    numberstyle=\tiny\color{codegray},
-    tabsize=4,
-    language=[Sharp]C
-}
 
 \author{Adam Kliś}
 \album{217584} 
@@ -52,26 +36,10 @@
 \section*{Słownik pojęć}
 \addcontentsline{toc}{section}{Słownik pojęć}
 \begin{itemize}
-    \item \textbf{API (Application Programming Interface)} – interfejs programistyczny aplikacji pozwalający na komunikację między systemami.
-    \item \textbf{AuthN (Authentication)} – uwierzytelnianie; proces weryfikacji tożsamości użytkownika lub systemu (np. na podstawie loginu i hasła).
-    \item \textbf{AuthZ (Authorization)} – autoryzacja; proces weryfikacji, czy dany (już uwierzytelniony) użytkownik posiada uprawnienia do wykonania określonej operacji.
-    \item \textbf{CPU (Central Processing Unit)} – główny procesor komputera.
-    \item \textbf{DI (Dependency Injection)} – wstrzykiwanie zależności; wzorzec projektowy polegający na przekazywaniu gotowych obiektów (zależności) do klas, które ich używają, zamiast tworzyć je wewnątrz tych klas.
-    \item \textbf{DTO (Data Transfer Object)} – obiekt transferu danych; wzorzec projektowy służący do przenoszenia agregatów danych pomiędzy procesami lub warstwami aplikacji.
-    \item \textbf{EF Core (Entity Framework Core)} – wieloplatformowe narzędzie ORM dla ekosystemu .NET rozwijane przez firmę Microsoft.
-    \item \textbf{HMAC (Keyed-Hash Message Authentication Code)} – kryptograficzna funkcja mieszająca wykorzystująca klucz tajny do weryfikacji integralności i autentyczności wiadomości.
-    \item \textbf{HTTP (Hypertext Transfer Protocol)} – bezstanowy protokół komunikacyjny będący fundamentem sieci Web.
-    \item \textbf{IoC (Inversion of Control)} – odwrócenie sterowania; paradygmat programowania, w którym zewnętrzny kontener zarządza przepływem sterowania i tworzeniem obiektów.
-    \item \textbf{JSON (JavaScript Object Notation)} – lekki, tekstowy format wymiany danych.
-    \item \textbf{JWT (JSON Web Token)} – otwarty standard (RFC 7519) definiujący kompaktowy sposób bezpiecznego przesyłania informacji w formacie JSON między stronami.
-    \item \textbf{LINQ (Language Integrated Query)} – zintegrowany z językiem C\# mechanizm tworzenia zapytań do różnych źródeł danych.
-    \item \textbf{MFA (Multi-Factor Authentication)} – uwierzytelnianie wieloskładnikowe; metoda weryfikacji tożsamości wymagająca użycia co najmniej dwóch niezależnych dowodów.
-    \item \textbf{ORM (Object-Relational Mapping)} – mapowanie obiektowo-relacyjne; technika programistyczna wiążąca struktury obiektowe w kodzie z tabelami relacyjnej bazy danych.
-    \item \textbf{RAM (Random Access Memory)} – główna pamięć operacyjna komputera.
-    \item \textbf{SIEM (Security Information and Event Management)} – system zarządzania informacjami i zdarzeniami bezpieczeństwa, służący do monitorowania ruchu sieciowego.
-    \item \textbf{SQL JOIN} – operacja złączenia w relacyjnych bazach danych polegająca na logicznym łączeniu rekordów z dwóch lub więcej tabel.
+    \item \textbf{Autoryzacja} – proces weryfikacji, czy dany (już uwierzytelniony) użytkownik posiada uprawnienia do wykonania określonej operacji.
+    \item \textbf{Uwierzytelnianie (Authentication)} – proces weryfikacji tożsamości użytkownika (np. na podstawie loginu i hasła).
     \item \textbf{Token} – cyfrowy nośnik informacji, często zabezpieczony kryptograficznie, reprezentujący tożsamość lub uprawnienia użytkownika.
-    \item \textbf{TOTP (Time-based One-Time Password)} – algorytm generujący jednorazowe hasła oparte na aktualnym czasie.
+    \item \textbf{API (Application Programming Interface)} – interfejs programistyczny aplikacji pozwalający na komunikację między systemami.
     \item \textbf{Zero Trust} – model bezpieczeństwa zakładający, że żadne urządzenie ani użytkownik nie jest domyślnie zaufany, nawet jeśli znajduje się wewnątrz sieci korporacyjnej.
 \end{itemize}
 
@@ -97,17 +65,15 @@ Aby w pełni zrozumieć architekturę proponowanego rozwiązania, konieczne jest
 
 W inżynierii bezpieczeństwa oprogramowania pojęcia uwierzytelniania i autoryzacji są często używane zamiennie, co stanowi poważny błąd terminologiczny. Zrozumienie różnicy między nimi jest kluczowe dla poprawnego modelowania systemów dostępu.
 
-\textbf{Uwierzytelnianie (AuthN)} to proces weryfikacji tożsamości użytkownika lub systemu. Odpowiada na pytanie: "Kim jesteś?". W tradycyjnych systemach proces ten realizowany jest najczęściej poprzez podanie loginu i hasła. W rozwiązaniach bardziej zaawansowanych stosuje się biometrię lub uwierzytelnianie wieloskładnikowe (MFA).
+\textbf{Uwierzytelnianie (ang. Authentication - AuthN)} to proces weryfikacji tożsamości użytkownika lub systemu. Odpowiada na pytanie: "Kim jesteś?". W tradycyjnych systemach proces ten realizowany jest najczęściej poprzez podanie loginu i hasła. W rozwiązaniach bardziej zaawansowanych stosuje się biometrię lub uwierzytelnianie wieloskładnikowe (MFA).
 
-\textbf{Autoryzacja (AuthZ)} to proces decyzyjny następujący zawsze po udanym uwierzytelnieniu. Odpowiada na pytanie: "Czy masz prawo to zrobić?". Nawet jeśli tożsamość użytkownika została poprawnie zweryfikowana, system autoryzacyjny musi sprawdzić, czy jego rola uprawnia go do dostępu do konkretnego zasobu (np. usunięcia rekordu z bazy danych). Niniejsza praca skupia się na optymalizacji obu tych procesów, ze szczególnym naciskiem na minimalizację kosztów obliczeniowych podczas ciągłej autoryzacji zapytań sieciowych.
+\textbf{Autoryzacja (ang. Authorization - AuthZ)} to proces decyzyjny następujący zawsze po udanym uwierzytelnieniu. Odpowiada na pytanie: "Czy masz prawo to zrobić?". Nawet jeśli tożsamość użytkownika została poprawnie zweryfikowana, system autoryzacyjny musi sprawdzić, czy jego rola uprawnia go do dostępu do konkretnego zasobu (np. usunięcia rekordu z bazy danych). Niniejsza praca skupia się na optymalizacji obu tych procesów, ze szczególnym naciskiem na minimalizację kosztów obliczeniowych podczas ciągłej autoryzacji zapytań sieciowych.
 
 \section{Protokół HTTP i problem braku stanu}
 
-Protokół HTTP, będący fundamentem komunikacji w sieci Web, z definicji jest protokołem bezstanowym (ang. \textit{Stateless}). Oznacza to, że każde żądanie wysyłane przez klienta do serwera traktowane jest jako całkowicie niezależna operacja. Serwer na poziomie sieciowym nie przechowuje żadnych informacji o poprzednich interakcjach z danym klientem.
+Protokół HTTP (ang. \textit{Hypertext Transfer Protocol}), będący fundamentem komunikacji w sieci Web, z definicji jest protokołem bezstanowym (ang. \textit{Stateless}). Oznacza to, że każde żądanie wysyłane przez klienta do serwera traktowane jest jako całkowicie niezależna operacja. Serwer na poziomie sieciowym nie przechowuje żadnych informacji o poprzednich interakcjach z danym klientem.
 
 Z inżynierskiego punktu widzenia bezstanowość HTTP jest jego ogromną zaletą. Pozwala ona na szybkie obsługiwanie tysięcy jednoczesnych połączeń bez drastycznego przyrostu zużycia pamięci operacyjnej (RAM) serwera. Wymusza to jednak na twórcach oprogramowania aplikacyjnego budowę mechanizmów, które do każdego żądania dołączą dowód tożsamości użytkownika.
-
-\clearpage
 
 \section{Ewolucja: Od sesji stanowych do bezstanowych tokenów}
 
@@ -156,7 +122,7 @@ Krytyczna analiza tego standardu uwidacznia jego redundancję w zamkniętych śr
 
 \section{Paradygmat Inversion of Control i mechanizm DI}
 
-Zastosowany stos technologiczny wymusza na programistach przestrzeganie dobrych praktyk projektowych. Jednym z najważniejszych paradygmatów zastosowanych w architekturze biblioteki jest odwrócenie sterowania (IoC) realizowane poprzez wzorzec wstrzykiwania zależności (DI). 
+Zastosowany stos technologiczny wymusza na programistach przestrzeganie dobrych praktyk projektowych. Jednym z najważniejszych paradygmatów zastosowanych w architekturze biblioteki jest odwrócenie sterowania (ang. \textit{Inversion of Control} -- IoC) realizowane poprzez wzorzec Wstrzykiwania Zależności (ang. \textit{Dependency Injection} -- DI). 
 
 Zasada ta jest bezpośrednio powiązana z literą "D" w akronimie SOLID (ang. \textit{Dependency Inversion Principle}), która mówi, że moduły wysokopoziomowe nie powinny zależeć od modułów niskopoziomowych, a obie warstwy powinny opierać się na abstrakcjach. Zamiast bezpośrednio tworzyć instancje obiektów (np. połączeń do bazy danych) wewnątrz klas przy użyciu słowa kluczowego \texttt{new}, komponenty systemu deklarują swoje zależności poprzez interfejsy w konstruktorach.
 
@@ -166,9 +132,9 @@ W ekosystemie ASP.NET Core wbudowany kontener DI samodzielnie zarządza cyklem �
 
 Do realizacji projektu wybrano środowisko uruchomieniowe \textbf{.NET} oraz język \textbf{C\#}. Platforma ta, rozwijana przez firmę Microsoft, stanowi obecnie jeden z najbardziej zaawansowanych i wydajnych ekosystemów do budowy wielowątkowych aplikacji serwerowych (Web API).
 
-Istotnym elementem architektury jest warstwa persystencji danych. Interakcja z relacyjną bazą danych odbywa się za pośrednictwem technologii EF Core. Jest to zaawansowane narzędzie klasy ORM, które rozwiązuje problem tzw. niedopasowania impedancji (ang. \textit{impedance mismatch}) pomiędzy światem programowania obiektowego a tabelami bazy danych.
+Istotnym elementem architektury jest warstwa persystencji danych. Interakcja z relacyjną bazą danych odbywa się za pośrednictwem technologii Entity Framework Core (EF Core). Jest to zaawansowane narzędzie klasy ORM (ang. \textit{Object-Relational Mapping}), które rozwiązuje problem tzw. niedopasowania impedancji (ang. \textit{impedance mismatch}) pomiędzy światem programowania obiektowego a tabelami bazy danych.
 
-Wykorzystanie EF Core pozwala na operowanie na bazie bez konieczności pisania jawnych zapytań w języku SQL. Kodowanie odbywa się przy pomocy składni LINQ, a framework automatycznie tłumaczy te komendy na bezpieczny i zoptymalizowany pod dany silnik dialekt SQL. Użycie tego narzędzia automatycznie zabezpiecza autorski system autoryzacji przed jednym z najgroźniejszych ataków sieciowych – \textit{SQL Injection} – ponieważ wszystkie wartości wstawiane do bazy są domyślnie traktowane jako parametryzowane dane wejściowe.
+Wykorzystanie EF Core pozwala na operowanie na bazie bez konieczności pisania jawnych zapytań w języku SQL. Kodowanie odbywa się przy pomocy składni LINQ (ang. \textit{Language Integrated Query}), a framework automatycznie tłumaczy te komendy na bezpieczny i zoptymalizowany pod dany silnik dialekt SQL. Użycie tego narzędzia automatycznie zabezpiecza autorski system autoryzacji przed jednym z najgroźniejszych ataków sieciowych – \textit{SQL Injection} – ponieważ wszystkie wartości wstawiane do bazy są domyślnie traktowane jako parametryzowane dane wejściowe.
 \clearpage
 
 \chapter{Projekt i architektura systemu}
@@ -191,13 +157,11 @@ gdzie:
     \item $\text{Base64Url}()$ – funkcja kodująca dane do bezpiecznego formatu tekstowego.
 \end{itemize}
 
-Kluczowym zabiegiem inżynieryjnym w tym równaniu jest użycie algorytmu \textbf{Base64Url} zamiast standardowego Base64. Standardowe kodowanie wprowadza znaki takie jak \texttt{+} oraz \texttt{/}, które posiadają specjalne znaczenie w adresach URL i nagłówkach HTTP (mogą prowadzić do błędów parsowania). Base64Url zastępuje je odpowiednio znakami \texttt{-} (myślnik) oraz \texttt{\_} (podkreślenie), a także usuwa znaki dopełnienia \texttt{=}, co gwarantuje pełną kompatibility protokołu sieciowego.
-
-\clearpage
+Kluczowym zabiegiem inżynieryjnym w tym równaniu jest użycie algorytmu \textbf{Base64Url} zamiast standardowego Base64. Standardowe kodowanie wprowadza znaki takie jak \texttt{+} oraz \texttt{/}, które posiadają specjalne znaczenie w adresach URL i nagłówkach HTTP (mogą prowadzić do błędów parsowania). Base64Url zastępuje je odpowiednio znakami \texttt{-} (myślnik) oraz \texttt{\_} (podkreślenie), a także usuwa znaki dopełnienia \texttt{=}, co gwarantuje pełną kompatybilność protokołu sieciowego.
 
 \section{Algorytm podpisu cyfrowego}
 
-Bezpieczeństwo systemu opiera się na zapewnieniu integralności i niezaprzeczalności emitowanych poświadczeń. Do generowania sumy kontrolnej ($S$) wykorzystano algorytm symetryczny HMAC w oparciu o silną funkcję skrótu SHA-256. 
+Bezpieczeństwo systemu opiera się na zapewnieniu integralności i niezaprzeczalności emitowanych poświadczeń. Do generowania sumy kontrolnej ($S$) wykorzystano algorytm symetryczny HMAC (ang. \textit{Keyed-Hash Message Authentication Code}) w oparciu o silną funkcję skrótu SHA-256. 
 
 Wybór kryptografii symetrycznej podyktowany jest niespotykaną wydajnością oraz specyfiką aplikacji monolitycznych, gdzie serwer wydający i weryfikujący to ten sam podmiot, posiadający bezpieczny dostęp do pamięci operacyjnej. Pełny proces generowania podpisu $\sigma$ można wyrazić wzorem matematycznym:
 
@@ -226,8 +190,6 @@ Zrozumienie procesu weryfikacji jest kluczowe z perspektywy bezpieczeństwa. Wer
 
 Kiedy serwer odbiera token z żądania HTTP, rozdziela go używając znaku kropki jako separatora. Następnie, korzystając z przechwyconego ładunku $P$ oraz własnego klucza symetrycznego $K$, ponownie wykonuje funkcję $\text{HMAC}_{\text{SHA256}}$. Jeśli nowo wyliczona sygnatura $\sigma'$ jest matematycznie tożsama z sygnaturą $\sigma$ nadesłaną przez klienta ($\sigma' == \sigma$), serwer nabiera pewności, że dane nie uległy manipulacji. Ewentualna zmiana choćby jednego bitu w ładunku (np. próba zmiany identyfikatora roli) spowoduje drastyczną zmianę wyliczonego skrótu zjawiskiem lawinowym (ang. \textit{Avalanche Effect}), co poskutkuje natychmiastowym odrzuceniem żądania HTTP z kodem 401 Unauthorized.
 
-\clearpage
-
 \section{Zarządzanie rolami przy użyciu masek bitowych}
 
 Największą innowacją zaprojektowanego systemu jest całkowite odejście od tekstowej reprezentacji uprawnień. Model ten opiera się na matematycznej teorii zbiorów oraz systemie wag dwójkowych.
@@ -255,8 +217,6 @@ W standardowym podejściu (klasyczny JWT), role weryfikowane są poprzez iteracy
 
 W mechanizmie autorskim, po początkowym zdekodowaniu krótkiej maski szesnastkowej, proces walidacji sprowadza się do wywołania operatorów sprzętowych procesora. Złożoność obliczeniowa porównania bitowego, bez względu na wielkość słownika ról w systemie, jest stała i wynosi zawsze $\boldsymbol{O(1)}$. Złożoność pamięciowa została zredukowana do alokacji pojedynczych zmiennych typów prostych (ang. \textit{Value Types}).
 
-\clearpage
-
 \section{Cykl życia sesji i rotacja tokenów odświeżających}
 
 Krótki czas życia tokenu dostępowego (zazwyczaj od kilku do kilkunastu minut) stanowi fundament bezpieczeństwa w modelu bezstanowym. Ograniczenie to drastycznie minimalizuje okno czasowe, w którym przechwycony token mógłby posłużyć do wyrządzenia szkód w systemie.
@@ -278,7 +238,7 @@ Z uwagi na zastosowanie wzorców inżynieryjnych system podzielono na logiczne p
 
 \section{Diagram klas: Kontrakty i modele}
 
-Rysunek \ref{fig:class_contracts} obrazuje obiekty transferu danych (DTO), takie jak model \texttt{Token} oraz jego zagnieżdżone elementy. Separacja abstrakcyjnych interfejsów (np. \texttt{IHashingService}) od ich implementacji fizycznych jest strukturalnym wymogiem obsługi wbudowanego kontenera wstrzykiwania zależności (DI).
+Rysunek \ref{fig:class_contracts} obrazuje obiekty transferu danych (DTO), takie jak model \texttt{Token} oraz jego zagnieżdżone elementy. Separacja abstrakcyjnych interfejsów (np. \texttt{IHashingService}) od ich implementacji fizycznych jest strukturalnym wymogiem obsługi wbudowanego kontenera Wstrzykiwania Zależności.
 
 \begin{figure}[htbp]
     \centering
@@ -341,18 +301,13 @@ Zanim użytkownik uzyska dostęp do chronionych zasobów, aplikacja musi przetwo
 
 Zanim jednak filtr będzie mógł zwalidować żądanie (jak pokazano na schemacie), użytkownik musi najpierw wygenerować cyfrowe poświadczenie autentyczności, komunikując się z dedykowanym serwisem logowania.
 
-\clearpage
-
 \section{Rejestracja i bezpieczne przechowywanie haseł}
 
 Fundamentem każdego systemu tożsamości jest bezpieczny proces rejestracji (ang. \textit{Provisioning}). Serwis odpowiedzialny za ten proces upewnia się, że dane użytkownika są unikalne, a jego hasło nigdy nie trafia do bazy w postaci jawnej (tzw. \textit{Plain text}). 
 
 W zaprezentowanej metodzie \texttt{Register} zastosowano mechanizm solenia i haszowania (\texttt{\_passwordHasher.HashPassword}), co gwarantuje spełnienie wytycznych bezpieczeństwa OWASP. Metoda weryfikuje zajętość loginu oraz adresu e-mail, korzystając z wydzielonego zakresu kontenera zależności (DI).
 
-\vspace{2cm}
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}
+\begin{verbatim}
 public async Task<bool> Register(string username, 
                                  string email, string password)
 {
@@ -382,20 +337,15 @@ public async Task<bool> Register(string username,
         return false;
     }
 }
-\end{lstlisting}
-\end{minipage}
-
-\clearpage
+\end{verbatim}
 
 \section{Proces logowania i weryfikacji tożsamości}
 
 Punktem wejścia do bezpiecznej strefy systemu jest serwis \texttt{LoginService}. Odpowiada on za autentykację użytkownika na podstawie dostarczonych poświadczeń. 
+
 Poniższy fragment kodu prezentuje metodę \texttt{Login}. Warto zwrócić uwagę na wykorzystanie fabryki zakresów (\texttt{IServiceScopeFactory}). Ponieważ autoryzacja może być wywoływana z różnych kontekstów cyklu życia aplikacji, serwis ręcznie tworzy nowy zakres dla kontenera wstrzykiwania zależności (DI), z którego następnie bezpiecznie pobiera repozytorium użytkowników (\texttt{IUserRepo}). Po poprawnej weryfikacji skrótu hasła, proces generowania obiektów tokenowych delegowany jest do oddzielnej metody pomocniczej.
 
-\vspace{2cm}
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}    
+\begin{verbatim}
 public async Task<CombinedToken?> Login(string login, string password)
 {
     var hashedPassword = _passwordHasher.HashPassword(password);
@@ -409,24 +359,17 @@ public async Task<CombinedToken?> Login(string login, string password)
 
     return await CreateCombinedTokenForUser(scope, user);
 }
-\end{lstlisting}
-\end{minipage}
-
-\vspace{2cm}
+\end{verbatim}
 
 Właściwy proces budowy, kompresji oraz kryptograficznego podpisywania poświadczeń został wyodrębniony do prywatnej metody pomocniczej \texttt{CreateCombinedTokenForUser}. Przyjmuje ona wcześniej wygenerowany zakres (ang. \textit{Scope}) oraz zweryfikowany obiekt użytkownika. 
 
 To w tym miejscu wywoływany jest serwis odpowiedzialny za transformację tekstowych ról w skompresowaną maskę bitową (\texttt{EncodeRoles}). Następnie system generuje unikalny token odświeżający i zapisuje go w relacyjnej bazie danych. Zwieńczeniem procesu jest wywołanie metody \texttt{Hash}, która zamienia struktury obiektowe na docelowe ciągi znaków zabezpieczone algorytmem HMAC-SHA256.
 
-\clearpage
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}    
+\begin{verbatim}
 private async Task<CombinedToken?> CreateCombinedTokenForUser(
     IServiceScope scope, User user)
 {
-    var userRoleRepo = scope.ServiceProvider
-        .GetRequiredService<IUserRoleRepo>();
+    var userRoleRepo = scope.ServiceProvider.GetRequiredService<IUserRoleRepo>();
     var roles = await userRoleRepo.GetUserRoles(user);
 
     var token = new Token
@@ -441,14 +384,12 @@ private async Task<CombinedToken?> CreateCombinedTokenForUser(
         token.UserRoles = await _roleService.EncodeRoles(
             roles.Select(x => x.RoleCode).ToList());
 
-    var refreshTokenRepo = scope.ServiceProvider
-        .GetRequiredService<IRefreshTokenRepo>();
+    var refreshTokenRepo = scope.ServiceProvider.GetRequiredService<IRefreshTokenRepo>();
 
     var refreshToken = new RefreshToken
     {
         UserId = user.Id,
-        ExpirationDate = DateTime.Now
-            .Add(_options.Value.RefreshTokenExpirationTime)
+        ExpirationDate = DateTime.Now.Add(_options.Value.RefreshTokenExpirationTime)
     };
     await refreshTokenRepo.AddRefreshToken(refreshToken);
 
@@ -458,8 +399,7 @@ private async Task<CombinedToken?> CreateCombinedTokenForUser(
         RefreshToken = _hashingService.Hash(refreshToken)
     };
 }
-\end{lstlisting}
-\end{minipage}
+\end{verbatim}
 
 \section{Implementacja odświeżania sesji i rotacji tokenów}
 
@@ -467,8 +407,7 @@ Zgodnie z wymaganiami architektonicznymi, czas życia wydanego tokenu (\texttt{T
 
 W pierwszej kolejności następuje weryfikacja kryptograficzna. Odrzuca ona zapytania ze zmodyfikowanym ładunkiem od razu, oszczędzając zasoby serwera bazy danych. Następnie system używa bloku \texttt{try-catch} do bezpiecznej deserializacji struktury. Kluczowym momentem algorytmu jest weryfikacja stanu tokenu w bazie danych i natychmiastowe usunięcie (zużycie) starego poświadczenia przed wydaniem nowej pary, co zamyka wektor ataków typu \textit{Replay Attack}.
 
-\begin{minipage}{\textwidth}
-\begin{lstlisting}    
+\begin{verbatim}
 public async Task<CombinedToken?> Refresh(string refreshTokenString)
 {
     if (!_hashingService.VerifiyHash(refreshTokenString))
@@ -489,6 +428,7 @@ public async Task<CombinedToken?> Refresh(string refreshTokenString)
     using var scope = _scopeFactory.CreateScope();
     var refreshRepo = scope.ServiceProvider.GetRequiredService<IRefreshTokenRepo>();
     
+    // Weryfikacja bazy danych i rotacja (usunięcie) zużytego tokenu
     var dbToken = await refreshRepo.GetRefreshToken(refreshToken.Id);
     if (dbToken is null || dbToken.ExpirationDate < DateTime.Now)
         return null;
@@ -503,21 +443,14 @@ public async Task<CombinedToken?> Refresh(string refreshTokenString)
 
     return await CreateCombinedTokenForUser(scope, user);
 }
-\end{lstlisting}
-\end{minipage}
-
-\clearpage
+\end{verbatim}
 
 \section{Konfiguracja i dynamiczne rozszerzanie ładunku (Custom Payload)}
 
 Aby stworzona biblioteka mogła funkcjonować jako uniwersalne narzędzie typu \textit{Plug and Play} w dowolnym projekcie, nie mogła ograniczać się wyłącznie do predefiniowanych pól. Zastosowano architektoniczny wzorzec strategii z wykorzystaniem delegatów \texttt{Func} zdefiniowanych w języku C\#, wstrzykiwanych podczas konfiguracji aplikacji (wzorzec \textit{Fluent API}).
 
-Poniższy fragment pliku \texttt{Program.cs} prezentuje proces rejestracji biblioteki w głównym kontenerze zależności platformy ASP.NET Core. Za pomocą metody \texttt{AddDataToToken} deweloper wykorzystujący bibliotekę może przekazać własną funkcję (w tym przypadku \texttt{AddInfo}), która zostanie wywołana podczas każdego generowania tokenu. 
-
-\vspace{2cm}
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}    
+Poniższy fragment pliku \texttt{Program.cs} prezentuje proces rejestracji biblioteki w głównym kontenerze zależności platformy ASP.NET Core. Za pomocą metody \texttt{AddDataToToken} deweloper wykorzystujący bibliotekę może przekazać własną funkcję (w tym przypadku \texttt{AddInfo}), która zostanie wywołana podczas każdego generowania tokenu.
+\begin{verbatim}
 builder.Services.UseAJT(
     new AJT.Options.AJTOptions
     {
@@ -541,18 +474,11 @@ static async Task<object> AddInfo(Guid userId, IServiceProvider services)
 
     return new { Department = "IT", AccessLevel = 1, Name = user.Username };
 }
-\end{lstlisting}
-\end{minipage}
-
-\clearpage
+\end{verbatim}
 
 Od strony wewnętrznej biblioteki, obsługa tego delegata realizowana jest przez klasę \texttt{TokenDataService}. Przechwytuje ona zadeklarowaną funkcję i wywołuje ją asynchronicznie, przekazując identyfikator logującego się użytkownika oraz interfejs \texttt{IServiceProvider}. Dzięki dostępowi do dostawcy usług, funkcja zwrotna (\textit{Callback}) może odpytywać dowolne inne moduły zarejestrowane w aplikacji nadrzędnej (np. system HR w celu pobrania struktury organizacyjnej).
 
-\vspace{2cm}
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}
-    
+\begin{verbatim}
 internal sealed class TokenDataService : ITokenDataService
 {
     private Func<Guid, IServiceProvider, Task<object>>? _func;
@@ -574,10 +500,7 @@ internal sealed class TokenDataService : ITokenDataService
         return await _func(userId, _serviceProvider);
     }
 }
-\end{lstlisting}
-\end{minipage}
-
-\vspace{2cm}
+\end{verbatim}
 
 To właśnie metoda \texttt{GetCustomTokenData} jest wykonywana wewnątrz serwisu logowania podczas budowania obiektu \texttt{CombinedToken}. Zwrócone przez nią dane są automatycznie serializowane do formatu JSON. Jeżeli programista nie zdefiniuje własnej funkcji, metoda bezpiecznie zwróci wartość \texttt{null}, a struktura ładunku pozostanie zminimalizowana.
 
@@ -589,10 +512,7 @@ Mechanizm weryfikacji oparty na maskach bitowych jest wysoce zoptymalizowany, je
 
 Aby całkowicie zautomatyzować ten proces, zaimplementowano usługę działającą w tle – \texttt{RoleBootstrapper}. Klasa ta implementuje interfejs \texttt{IHostedService}, co sprawia, że jest uruchamiana przez platformę ASP.NET Core jeszcze przed przyjęciem pierwszego żądania HTTP. Algorytm w pierwszej kolejności pozyskuje listę wymaganych uprawnień (z opcji dostarczonych przez programistę lub poprzez skanowanie atrybutów w kodzie) i weryfikuje ich zbieżność ze stanem relacyjnej bazy danych.
 
-\clearpage
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}  
+\begin{verbatim}
 internal class RoleBootstrapper : IHostedService
 {
     private readonly IServiceScopeFactory _scopeFactory;
@@ -638,41 +558,32 @@ internal class RoleBootstrapper : IHostedService
     {
         return Task.CompletedTask;
     }
-\end{lstlisting}
-\end{minipage}
-
-\clearpage
+\end{verbatim}
 
 \section{Dynamiczne skanowanie atrybutów}
 
-Kluczowym elementem wspierającym ideę samokonfigurującej się biblioteki jest metoda \texttt{GetDefinedRoles}. Za pomocą narzędzi refleksji (ang. \textit{Reflection}) z przestrzeni \texttt{System.Reflection}, algorytm przeszukuje aktualnie uruchomioną bibliotekę kodu (\textit{Assembly}). Analizowane są zarówno definicje klas, jak i pojedynczych metod pod kątem występowania autorskiego atrybut \texttt{AllowRoleAttribute}. Unikalny zbiór ról (\texttt{Distinct}) jest następnie zwracany do głównego algorytmu sprawdzającego.
+Kluczowym elementem wspierającym ideę samokonfigurującej się biblioteki jest metoda \texttt{GetDefinedRoles}. Za pomocą narzędzi refleksji (ang. \textit{Reflection}) z przestrzeni \texttt{System.Reflection}, algorytm przeszukuje aktualnie uruchomioną bibliotekę kodu (\textit{Assembly}). Analizowane są zarówno definicje klas, jak i pojedynczych metod pod kątem występowania autorskiego atrybutu \texttt{AllowRoleAttribute}. Unikalny zbiór ról (\texttt{Distinct}) jest następnie zwracany do głównego algorytmu sprawdzającego.
 
-\vspace{2cm}
+\begin{verbatim}
+    private List<string> GetDefinedRoles()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
 
-\begin{minipage}{\textwidth}
-\begin{lstlisting}    
-private List<string> GetDefinedRoles()
-{
-    var assembly = Assembly.GetExecutingAssembly();
+        var classRoles = assembly.GetTypes()
+            .SelectMany(t => t.GetCustomAttributes<AllowRoleAttribute>(true))
+            .SelectMany(a => a.Roles);
 
-    var classRoles = assembly.GetTypes()
-        .SelectMany(t => t.GetCustomAttributes<AllowRoleAttribute>(true))
-        .SelectMany(a => a.Roles);
+        var methodRoles = assembly.GetTypes()
+            .SelectMany(t => t.GetMethods())
+            .SelectMany(m => m.GetCustomAttributes<AllowRoleAttribute>(true))
+            .SelectMany(a => a.Roles);
 
-    var methodRoles = assembly.GetTypes()
-        .SelectMany(t => t.GetMethods())
-        .SelectMany(m => m.GetCustomAttributes<AllowRoleAttribute>(true))
-        .SelectMany(a => a.Roles);
-
-    return classRoles
-        .Concat(methodRoles)
-        .Distinct()
-        .ToList();
-}
-\end{lstlisting}
-\end{minipage}
-
-\vspace{2cm}
+        return classRoles
+            .Concat(methodRoles)
+            .Distinct()
+            .ToList();
+    }
+\end{verbatim}
 
 \section{Proces bezpiecznej migracji uprawnień}
 
@@ -680,50 +591,47 @@ Jeśli \texttt{RoleBootstrapper} wykryje niespójność (nowa rola została doda
 
 Proces przebiega w trzech fazach. W pierwszej fazie system tworzy w pamięci tymczasową kopię zapasową, łącząc identyfikatory użytkowników z ich tekstowymi kodami ról (aby uniknąć utraty powiązań na skutek zmiany numerów bitowych). Następnie następuje tzw. operacja czyszczenia środowiska, w której fizycznie kasowane są stare definicje ról i nadpisywane nowymi, uporządkowanymi maskami. W ostatniej fazie system iteruje przez zachowaną w pamięci kopię zapasową użytkowników, odszukuje nowo przypisane obiekty ról po ich tekstowych kodach i odtwarza relację wpisując je bezpiecznie do tabel asocjacyjnych.
 
-\begin{minipage}{\textwidth}
-\begin{lstlisting}   
-private async Task ChangeRolesAsync(List<(int number, string Code)> roles, 
-    CancellationToken cancellationToken)
-{
-    using var scope = _scopeFactory.CreateScope();
-    var roleRepo = scope.ServiceProvider.GetRequiredService<IRoleRepo>();
-    var userRoleRepo = scope.ServiceProvider.GetRequiredService<IUserRoleRepo>();
-    
-    var currnetRoles = await roleRepo.GetAllRoles();
-    var userRoles = await userRoleRepo.GetAllUserRoles();
-    var userRoleNames = userRoles.Select(x => new
+\begin{verbatim}
+    private async Task ChangeRolesAsync(List<(int number, string Code)> roles, 
+        CancellationToken cancellationToken)
     {
-        x.UserId,
-        currnetRoles.Find(role => role.Id == x.RoleId)?.RoleCode
-    }).ToList();
-
-    await roleRepo.RemoveAllRoles();
-
-    foreach (var (roleNumber, roleCode) in roles)
-    {
-        await roleRepo.AddRole(new Entities.Role() 
-        { 
-            RoleNumber = roleNumber, 
-            RoleCode = roleCode 
-        });
-    }
-
-    var updatedRoles = await roleRepo.GetAllRoles();
-
-    foreach (var userRole in userRoleNames)
-    {
-        var role = updatedRoles.FirstOrDefault(x => x.RoleCode == userRole.RoleCode);
-        if (role is null)
-            continue;
+        using var scope = _scopeFactory.CreateScope();
+        var roleRepo = scope.ServiceProvider.GetRequiredService<IRoleRepo>();
+        var userRoleRepo = scope.ServiceProvider.GetRequiredService<IUserRoleRepo>();
         
-        await userRoleRepo.AddUserRole(
-            new Entities.User() { Id = userRole.UserId }, role);
+        var currnetRoles = await roleRepo.GetAllRoles();
+        var userRoles = await userRoleRepo.GetAllUserRoles();
+        var userRoleNames = userRoles.Select(x => new
+        {
+            x.UserId,
+            currnetRoles.Find(role => role.Id == x.RoleId)?.RoleCode
+        }).ToList();
+
+        await roleRepo.RemoveAllRoles();
+
+        foreach (var (roleNumber, roleCode) in roles)
+        {
+            await roleRepo.AddRole(new Entities.Role() 
+            { 
+                RoleNumber = roleNumber, 
+                RoleCode = roleCode 
+            });
+        }
+
+        var updatedRoles = await roleRepo.GetAllRoles();
+
+        foreach (var userRole in userRoleNames)
+        {
+            var role = updatedRoles.FirstOrDefault(x => x.RoleCode == userRole.RoleCode);
+            if (role is null)
+                continue;
+            
+            await userRoleRepo.AddUserRole(
+                new Entities.User() { Id = userRole.UserId }, role);
+        }
     }
 }
-\end{lstlisting}
-\end{minipage}
-
-\clearpage
+\end{verbatim}
 
 \section{Implementacja operacji kryptograficznych i ochrona przed atakami}
 
@@ -731,10 +639,7 @@ Zapewnienie integralności i niezaprzeczalności przesyłanych danych wymagało 
 
 Aby wygenerowany ciąg znaków mógł być bezpiecznie przesyłany w nagłówkach HTTP (tzw. \textit{Bearer Token}) bez ryzyka uszkodzenia formatu przesyłu, zaimplementowano niestandardowe kodowanie \texttt{Base64Url}. Zastępuje ono znaki kolidujące ze strukturą adresów URL i usuwa znaki dopełnienia (ang. \textit{padding}). Rdzeniem kryptograficznym jest metoda \texttt{CreateSignature}, która wykorzystuje wbudowaną klasę \texttt{HMACSHA256} do połączenia ładunku z kluczem tajnym pobranym z bezpiecznej konfiguracji aplikacji.
 
-\vspace{2cm}
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}    
+\begin{verbatim}
 private static string CreateSignature(string unsignedToken, string secret)
 {
     var keyBytes = Encoding.UTF8.GetBytes(secret);
@@ -753,17 +658,11 @@ private static string Base64UrlEncode(byte[] input)
         .Replace('+', '-')
         .Replace('/', '_');
 }
-\end{lstlisting}
-\end{minipage}
-
-\clearpage
+\end{verbatim}
 
 Proces generowania poświadczenia (metoda \texttt{Hash}) polega na serializacji struktury obiektowej języka C\# do formatu JSON, zakodowaniu jej wyżej opisanym mechanizmem, wyliczeniu skrótu matematycznego, a następnie połączeniu obu tych elementów znakiem kropki. Wynikiem jest gotowy do wysłania, skompresowany autorski token. Do ekstrakcji danych z tokenów służy metoda odwrotna \texttt{DecodePayload}.
 
-\vspace{2cm}
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}
+\begin{verbatim}
 public string Hash(Token token)
 {
     var tokenJson = JsonConvert.SerializeObject(token);
@@ -784,19 +683,13 @@ public string DecodePayload(string hashedToken)
     
     return Encoding.UTF8.GetString(bytes);
 }
-\end{lstlisting}
-\end{minipage}
-
-\vspace{2cm}
+\end{verbatim}
 
 Najbardziej newralgicznym punktem z perspektywy wektorów ataków sieciowych jest weryfikacja nadesłanego podpisu. Metoda \texttt{VerifiyHash} rozdziela przysłany ciąg znaków, a następnie samodzielnie generuje nową sygnaturę na podstawie przechwyconego ładunku i własnego klucza tajnego.
 
 Podczas weryfikacji tożsamości zidentyfikowano potencjalne zagrożenie związane z atakami czasowymi (ang. \textit{Timing Attacks}). Standardowy operator porównania ciągów znaków języka C\# przerywa działanie natychmiast po napotkaniu pierwszej różnicy, co pozwalałoby atakującemu na iteracyjne odgadnięcie całego skrótu na podstawie analizy mikrosekundowych opóźnień odpowiedzi serwera. Aby temu zapobiec, zaimplementowano stałoczasową weryfikację \texttt{FixedTimeEquals}, maskującą rzeczywisty czas trwania ewaluacji ciągów.
 
-\clearpage
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}    
+\begin{verbatim}
 public bool VerifiyHash(string token)
 {
     var parts = token.Split('.');
@@ -812,10 +705,7 @@ public bool VerifiyHash(string token)
 
     return CryptographicOperations.FixedTimeEquals(signatureBytes, expectedBytes);
 }
-\end{lstlisting}
-\end{minipage}
-
-\clearpage
+\end{verbatim}
 
 \section{Filtry potoku HTTP i weryfikacja tożsamości}
 
@@ -823,57 +713,63 @@ Zwieńczeniem całego systemu jest warstwa przechwytująca żądania sieciowe. A
 
 Pierwszy z nich, \texttt{RequireAuthenticationFilter}, służy wyłącznie do procesu uwierzytelniania. Jego zadaniem jest wyodrębnienie nagłówka \texttt{Bearer}, weryfikacja sumy kontrolnej za pomocą serwisu kryptograficznego oraz upewnienie się, że czas życia tokenu nie minął. Niezmiernie istotnym elementem tego filtru jest ekstrakcja niestandardowego ładunku (ang. \textit{Custom Payload}) i wstrzyknięcie go do słownika \texttt{HttpContext.Items}. Dzięki temu operacji tej nie trzeba powtarzać, a wywoływane w dalszej kolejności kontrolery biznesowe zyskują natychmiastowy dostęp do dodatkowych danych o użytkowniku. Każde niepowodzenie na tym etapie skutkuje przerwaniem potoku i zwróceniem kodu \texttt{401 Unauthorized}.
 
-\clearpage
-
-\begin{minipage}{\textwidth}
-\begin{lstlisting}    
-public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
+\begin{verbatim}
+internal sealed class RequireAuthenticationFilter : IAsyncAuthorizationFilter
 {
-    var authHeader = context.HttpContext.Request.Headers["Authorization"].ToString();
+    private readonly IHashingService _hashingService;
 
-    if (string.IsNullOrWhiteSpace(authHeader) || !authHeader.StartsWith("Bearer "))
+    public RequireAuthenticationFilter(IHashingService hashingService)
     {
-        context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { message = "Unauthorized" }));
-        return;
+        _hashingService = hashingService;
     }
 
-    var token = authHeader["Bearer ".Length..].Trim();
-
-    if (!_hashingService.VerifiyHash(token))
+    public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
-        context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { message = "Unauthorized" }));
-        return;
-    }
+        var authHeader = context.HttpContext.Request.Headers["Authorization"].ToString();
 
-    try
-    {
-        var payloadJson = _hashingService.DecodePayload(token);
-        var tokenObject = JsonConvert.DeserializeObject<Token>(payloadJson);
-        if (tokenObject is null || string.IsNullOrEmpty(tokenObject.UserRoles))
-            throw new UnauthorizedException();
-            
-        var data = tokenObject.Data;
-        if (data is not null)
-            context.HttpContext.Items["AJT"] = data;
-
-        if (tokenObject.ExpirationDate < DateTime.Now)
+        if (string.IsNullOrWhiteSpace(authHeader) || !authHeader.StartsWith("Bearer "))
         {
-            throw new UnauthorizedException();
+            context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { message = "Unauthorized" }));
+            return;
         }
-    }
-    catch
-    {
-        context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { message = "Unauthorized" }));
-        return;
-    }
 
-    await Task.CompletedTask;
+        var token = authHeader["Bearer ".Length..].Trim();
+
+        if (!_hashingService.VerifiyHash(token))
+        {
+            context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { message = "Unauthorized" }));
+            return;
+        }
+
+        try
+        {
+            var payloadJson = _hashingService.DecodePayload(token);
+            var tokenObject = JsonConvert.DeserializeObject<Token>(payloadJson);
+            if (tokenObject is null || string.IsNullOrEmpty(tokenObject.UserRoles))
+                throw new UnauthorizedException();
+                
+            var data = tokenObject.Data;
+            if (data is not null)
+                context.HttpContext.Items["AJT"] = data;
+
+            if (tokenObject.ExpirationDate < DateTime.Now)
+            {
+                throw new UnauthorizedException();
+            }
+        }
+        catch
+        {
+            context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { message = "Unauthorized" }));
+            return;
+        }
+
+        await Task.CompletedTask;
+    }
 }
-\end{lstlisting}
-\end{minipage}
+\end{verbatim}
 
 \section{Zaawansowana autoryzacja oparta o role}
 
@@ -881,9 +777,7 @@ Drugi filtr, \texttt{AllowRoleFilter}, stanowi rozszerzenie mechanizmu podstawow
 
 Po pomyślnym zdekodowaniu poświadczenia, filtr odczytuje szesnastkową maskę ról i wykorzystuje wstrzyknięty serwis \texttt{IRoleService} do jej transformacji na zbiór przyznanych uprawnień. Następnie realizowana jest operacja przecięcia zbiorów (ang. \textit{Intersection}) – system upewnia się, czy użytkownik posiada przynajmniej jedną z ról wymaganych przez punkt końcowy. Ścisłe rozdzielenie błędów logicznych, obsługiwane blokiem \texttt{try-catch}, gwarantuje, że brak wymaganej roli zwraca poprawny semantycznie kod \texttt{403 Forbidden}, podczas gdy wszelkie manipulacje kryptograficzne skutkują błędem \texttt{401 Unauthorized}.
 
-\vspace{2cm}
-
-\begin{lstlisting}
+\begin{verbatim}
 internal sealed class AllowRoleFilter : Attribute, IAsyncAuthorizationFilter
 {
     private readonly string[] _roles;
@@ -953,9 +847,7 @@ internal sealed class AllowRoleFilter : Attribute, IAsyncAuthorizationFilter
         }
     }
 }
-\end{lstlisting}
-
-\clearpage
+\end{verbatim}
 
 \chapter{Wdrożenie biblioteki i analiza porównawcza}
 
@@ -969,12 +861,10 @@ Rozważono dwa główne podejścia do rozwiązania tego problemu:
 \begin{enumerate}
     \item \textbf{Izolacja i synchronizacja (Baza dedykowana):} Podejście znane z architektury mikrousług. Biblioteka AJT otrzymuje własną, całkowicie odseparowaną bazę danych. Istniejący system i system autoryzacyjny komunikują się poprzez asynchronicznego brokera wiadomości (np. RabbitMQ). Gdy w starym systemie rejestruje się użytkownik, wysyłane jest zdarzenie, na podstawie którego AJT tworzy jego kopię autoryzacyjną u siebie. Rozwiązanie to jest wysoce skalowalne, lecz wprowadza ogromny narzut infrastrukturalny i problem transakcyjności rozproszonej (ang. \textit{Distributed Transactions}).
     
-    \item \textbf{Adaptacja modelu (Zalecane - Wzorzec Adaptera / EF Core Mapping):} Podejście optymalne dla aplikacji monolitycznych. Zamiast dublować dane, biblioteka jest konfigurowana w taki sposób, aby "podpiąć" się pod istniejącą strukturę. Tabele specyficzne dla biblioteki (takie jak \texttt{Roles}, \texttt{UserRoles} oraz \texttt{RefreshTokens}) są wstrzykiwane do istniejącego schematu bazy danych. Następnie, wykorzystując mechanizmy EF Core (tzw. klucze obce i właściwości nawigacyjne), tabele autoryzacyjne zostają relacyjnie połączone z istniejącym kluczem głównym (ID) tabeli użytkowników starego systemu. 
+    \item \textbf{Adaptacja modelu (Zalecane - Wzorzec Adaptera / EF Core Mapping):} Podejście optymalne dla aplikacji monolitycznych. Zamiast dublować dane, biblioteka jest konfigurowana w taki sposób, aby "podpiąć" się pod istniejącą strukturę. Tabele specyficzne dla biblioteki (takie jak \texttt{Roles}, \texttt{UserRoles} oraz \texttt{RefreshTokens}) są wstrzykiwane do istniejącego schematu bazy danych. Następnie, wykorzystując mechanizmy \textit{Entity Framework Core} (tzw. klucze obce i właściwości nawigacyjne), tabele autoryzacyjne zostają relacyjnie połączone z istniejącym kluczem głównym (ID) tabeli użytkowników starego systemu. 
 \end{enumerate}
 
 W podejściu adaptacyjnym ingerencja w stary kod jest minimalna. Tabela użytkowników w bazie danych nie ulega modyfikacji, a system zyskuje nowe możliwości autoryzacyjne w sposób płynny i bezkolizyjny.
-
-\clearpage
 
 \section{Proces wdrożenia krok po kroku}
 
@@ -992,9 +882,9 @@ Zakładając wykorzystanie rekomendowanej strategii adaptacyjnej, wdrożenie bib
 
 \section{Porównanie ze standardem ASP.NET Core Identity i JWT}
 
-Aby obiektywnie ocenić wartość przygotowanego rozwiązania, należy je zestawić z najczęściej wybieranym stosem technologicznym w ekosystemie .NET: natywną biblioteką \textit{ASP.NET Core Identity} połączoną z tokenami w standardzie JWT.
+Aby obiektywnie ocenić wartość przygotowanego rozwiązania, należy je zestawić z najczęściej wybieranym stosem technologicznym w ekosystemie .NET: natywną biblioteką \textit{ASP.NET Core Identity} połączoną z tokenami w standardzie \textit{JSON Web Token} (JWT).
 
-Standardowe rozwiązanie Identity tworzy w bazie danych od 7 do 9 obszernych tabel, w których role i oświadczenia (ang. \textit{Claims}) przechowywane są jako ciągi znaków (tzw. typ \texttt{nvarchar}). Generuje to potężny narzut na rozmiar relacyjnej bazy danych i wymaga kosztownych operacji SQL JOIN przy każdym logowaniu. 
+Standardowe rozwiązanie Identity tworzy w bazie danych od 7 do 9 obszernych tabel, w których role i oświadczenia (ang. \textit{Claims}) przechowywane są jako ciągi znaków (tzw. typ \texttt{nvarchar}). Generuje to potężny narzut na rozmiar relacyjnej bazy danych i wymaga kosztownych operacji złączeń (ang. \textit{SQL JOIN}) przy każdym logowaniu. 
 Z kolei autorskie rozwiązanie minimalizuje narzut strukturalny do zaledwie trzech tabel, a kompresja ról do maski szesnastkowej eliminuje konieczność przesyłania ciągów tekstowych.
 
 W kontekście formatu przesyłowego, standardowy token JWT musi przechowywać pełną strukturę \textit{Header}, \textit{Payload} oraz \textit{Signature}, przy czym oświadczenia o rolach są w nim jawnie wypisane. Prowadzi to do powstawania tokenów, których rozmiar często przekracza 1 kilobajt. Opracowany, autorski token (składający się tylko z zakodowanego ładunku i podpisu Base64Url) jest niemal dwukrotnie lżejszy, co w przypadku aplikacji o dużym natężeniu ruchu (ang. \textit{High Traffic}) pozwala zaoszczędzić gigabajty transferu sieciowego w skali miesiąca.
@@ -1074,13 +964,13 @@ OWASP Top 10 to najpopularniejszy, globalny dokument uświadamiający zagrożeni
     
     \item \textbf{Cryptographic Failures (Błędy kryptograficzne):} Poufność haseł została zapewniona poprzez wykorzystanie silnych skrótów kryptograficznych wraz z mechanizmem solenia (ang. \textit{Salting}), co całkowicie uniemożliwia odzyskanie haseł tekstowych nawet w przypadku fizycznego wycieku bazy danych. Integralność samego tokenu opiera się o sprawdzony standard z rodziny SHA-256 i unikalny sekretny klucz.
     
-    \item \textbf{Injection (Wstrzykiwanie kodu):} System wykorzystuje mapowanie obiektowo-relacyjne EF Core, które pod warstwą abstrakcji zawsze używa zapytań parametryzowanych. Architektura ta całkowicie neutralizuje zagrożenia związane z SQL Injection, uniemożliwiając wykonanie preparowanych zapytań modyfikujących strukturę relacyjną.
+    \item \textbf{Injection (Wstrzykiwanie kodu):} System wykorzystuje mapowanie obiektowo-relacyjne Entity Framework Core, które pod warstwą abstrakcji zawsze używa zapytań parametryzowanych. Architektura ta całkowicie neutralizuje zagrożenia związane z SQL Injection, uniemożliwiając wykonanie preparowanych zapytań modyfikujących strukturę relacyjną.
     
     \item \textbf{Identification and Authentication Failures (Błędy identyfikacji):} Implementacja rotacji tokenów odświeżających (opisana w poprzednich rozdziałach) oraz natychmiastowe usuwanie zużytych poświadczeń skutecznie chroni aplikację przed atakami typu \textit{Session Fixation} oraz \textit{Replay Attack} (atak polegający na przechwyceniu i ponownym wykorzystaniu starego żądania uwierzytelniającego).
     
     \item \textbf{Security Misconfiguration (Błędy konfiguracji zabezpieczeń):} Biblioteka wymusza na programiście dostarczenie klucza szyfrującego z poziomu konfiguracji zewnętrznej (poprzez wstrzyknięcie obiektu \texttt{AJTOptions}). Wymusza to odseparowanie kluczy od kodu źródłowego, chroniąc przed ich przypadkowym ujawnieniem w repozytoriach publicznych (np. GitHub).
 
-    \item \textbf{Security Logging and Monitoring Failures (Brak logowania i monitorowania):} W architekturze opartej na wstrzykiwaniu zależności (DI) filtry autoryzacyjne mogą z łatwością przyjmować natywny interfejs \texttt{ILogger}. Pozwala to na automatyczne rejestrowanie każdego odrzuconego żądania (kod 401 i 403), co jest kluczowe z punktu widzenia systemów SIEM wykrywających anomalie w ruchu sieciowym.
+    \item \textbf{Security Logging and Monitoring Failures (Brak logowania i monitorowania):} W architekturze opartej na wstrzykiwaniu zależności (DI) filtry autoryzacyjne mogą z łatwością przyjmować natywny interfejs \texttt{ILogger}. Pozwala to na automatyczne rejestrowanie każdego odrzuconego żądania (kod 401 i 403), co jest kluczowe z punktu widzenia systemów SIEM (ang. \textit{Security Information and Event Management}) wykrywających anomalie w ruchu sieciowym.
 \end{itemize}
 
 \section{Automatyzacja testów bezpieczeństwa kryptograficznego}
@@ -1095,9 +985,7 @@ Drugi scenariusz testuje odporność na ataki polegające na podrabianiu tokenó
 
 Ostatni blok testowy, wykorzystujący atrybut \texttt{[Theory]}, to testy odpornościowe (ang. \textit{Fuzz testing}). Do serwisu wstrzykiwane są uszkodzone, niepełne lub puste ciągi znaków. Asercje potwierdzają, że algorytm bezpiecznie obsługuje błędy formatowania, zwracając wartość logiczną \texttt{false}, zamiast generować krytyczne błędy wykonania (ang. \textit{Exceptions}), które mogłyby doprowadzić do ataku typu \textit{Denial of Service}.
 
-\vspace{2cm}
-
-\begin{lstlisting}
+\begin{verbatim}
 using AJT.Models;
 using AJT.Options;
 using AJT.Services;
@@ -1171,9 +1059,15 @@ namespace AJT.Tests
         }
     }
 }
-\end{lstlisting}
+\end{verbatim}
 
-\clearpage
+\section{Analiza wydajnościowa i narzut obliczeniowy}
+
+Główną motywacją do stworzenia autorskiego systemu opartego na maskach bitowych była chęć redukcji narzutu wydajnościowego, jaki generują standardowe tokeny JWT. Należy podkreślić, że uwierzytelnianie i autoryzacja odbywają się przy każdym pojedynczym żądaniu HTTP skierowanym do chronionego punktu końcowego, co czyni ten mechanizm jednym z najbardziej obciążonych elementów aplikacji.
+
+Odrzucenie klasycznego modelu, w którym uprawnienia zapisywane są jako obszerne tablice ciągów znaków (np. \texttt{["Administrator", "Moderator", "Uzytkownik"]}), na rzecz skompresowanego formatu szesnastkowego, diametralnie zmniejsza rozmiar pojedynczego żądania (ang. \textit{Payload Size}). Przekłada się to bezpośrednio na redukcję przepustowości sieciowej oraz zmniejszenie alokacji pamięci operacyjnej podczas deserializacji JSON.
+
+Kolejnym aspektem jest wydajność procesora (CPU). Samo generowanie skrótów kryptograficznych przy pomocy symetrycznego algorytmu HMAC-SHA256 narzuca bardzo małe opóźnienia obliczeniowe w porównaniu z weryfikacją asymetryczną (np. wykorzystującą klucze RSA). Dzięki użyciu operatorów bitowych i wydajnych zbiorów (\texttt{HashSet}) podczas operacji przeszukiwania ról wewnątrz filtra HTTP, ewaluacja praw dostępu wykonywana jest w czasie stałym $O(1)$, co gwarantuje wysoką skalowalność nawet przy ogromnym obciążeniu systemu.
 
 \section{Ograniczenia systemu i obszary dalszego rozwoju}
 
@@ -1181,11 +1075,11 @@ namespace AJT.Tests
 
 \textbf{Czarna lista tokenów (Blacklisting):} W pierwszej kolejności nie zaimplementowano tzw. czarnej listy tokenów. Ponieważ serwer z założenia nie odpytuje bazy danych przy walidacji głównego tokenu dostępowego, w przypadku jawnego wylogowania token pozostaje ważny aż do czasu naturalnego wygaśnięcia. Wdrożenie zewnętrznej, błyskawicznej bazy pamięciowej (np. Redis), która przechowywałaby identyfikatory unieważnionych tokenów z przypisanym czasem życia dopasowanym do ich wygaśnięcia, skutecznie załatałoby tę lukę bez drastycznego spadku wydajności.
 
-\textbf{Kryptografia asymetryczna:} Brak implementacji kryptografii asymetrycznej ogranicza wdrożenie systemu do prostszych środowisk. Obecny symetryczny algorytm HMAC sprawdza się w przypadku monolitycznego API, lecz w wysoce rozproszonej architekturze wymagane byłoby współdzielenie tego samego klucza tajnego między wszystkimi mikroserwisami. Wprowadzenie wsparcia dla algorytmów z rodziny RSA (gdzie główn serwer autoryzacyjny używa klucza prywatnego do podpisu, a mikroserwisy używają klucza publicznego wyłącznie do weryfikacji) stanowiłoby krytyczne rozszerzenie biblioteki.
+\textbf{Kryptografia asymetryczna:} Brak implementacji kryptografii asymetrycznej ogranicza wdrożenie systemu do prostszych środowisk. Obecny symetryczny algorytm sprawdza się w przypadku monolitycznego API, lecz w wysoce rozproszonej architekturze wymagane byłoby współdzielenie tego samego klucza tajnego między wszystkimi mikroserwisami. Wprowadzenie wsparcia dla algorytmów z rodziny RSA (gdzie główny serwer autoryzacyjny używa klucza prywatnego do podpisu, a mikroserwisy używają klucza publicznego wyłącznie do weryfikacji) stanowiłoby krytyczne rozszerzenie biblioteki.
 
 \textbf{Ochrona przed atakami Brute-Force:} Autorski system nie posiada wbudowanych mechanizmów limitowania zapytań sieciowych. Konsekwencją tego jest teoretyczna podatność punktu końcowego realizującego funkcję logowania na ataki siłowe lub ataki słownikowe (ang. \textit{Credential Stuffing}). W przyszłości biblioteka powinna zostać zintegrowana z natywnym modułem \textit{ASP.NET Core Rate Limiting}, aby automatycznie blokować numery IP generujące anomalną liczbę błędnych prób uwierzytelnienia.
 
-\textbf{Wsparcie dla MFA:} Obecny przepływ uwierzytelniania opiera się wyłącznie na jednym składniku (wiedzy – haśle użytkownika). Dodanie wsparcia dla uwierzytelniania wieloskładnikowego, np. z wykorzystaniem algorytmu TOTP lub autoryzatorów zewnętrznych, znacząco podniosłoby ocenę wiarygodności tożsamości w modelu Zero Trust.
+\textbf{Wsparcie dla Multi-Factor Authentication (MFA):} Obecny przepływ uwierzytelniania opiera się wyłącznie na jednym składniku (wiedzy – haśle użytkownika). Dodanie wsparcia dla uwierzytelniania wieloskładnikowego, np. z wykorzystaniem algorytmu TOTP (ang. \textit{Time-based One-Time Password}) lub autoryzatorów zewnętrznych, znacząco podniosłoby ocenę wiarygodności tożsamości w modelu Zero Trust.
 
 \textbf{Automatyczna rotacja kluczy kryptograficznych:} W obecnej wersji klucz szyfrujący podawany w obiekcie opcji jest statyczny. Dobrą praktyką w rozbudowanych systemach jest implementacja tzw. \textit{Key Rollover}, gdzie klucze tajne rotują automatycznie co określoną liczbę dni, a stare sygnatury pozostają wspierane jedynie przez okres przejściowy. Wdrożenie tej funkcji wyeliminowałoby ryzyko związane ze skompromitowaniem długowiecznego klucza aplikacji.
 
@@ -1195,7 +1089,7 @@ namespace AJT.Tests
 
 Głównym celem niniejszej pracy inżynierskiej było zaprojektowanie i zaimplementowanie autorskiego, zoptymalizowanego systemu uwierzytelniania i autoryzacji dla aplikacji opartych o środowisko ASP.NET Core. Poprzez analizę powszechnie stosowanych technologii sieciowych oraz wymagań współczesnych norm bezpieczeństwa, udowodniono skuteczność paradygmatu \textit{Zero Trust} wspomaganego szybkimi, bezstanowymi tokenami.
 
-Opracowana biblioteka pomyślnie rozwiązuje problem strukturalnego narzutu przesyłowych danych obecnego w popularnym standardzie JWT. Eliminacja nieużywanych metadanych oraz innowacyjne, oparte na konwersji bitowej podejście do interpretowania złożonych struktur ról użytkowników zaowocowały miniaturyzacją autoryzacyjnych żądań sieciowych. Wykorzystanie warstwy abstrakcji programistycznej, zgodnej z wzorcami wstrzykiwania zależności (DI), umożliwiło zamknięcie całej złożoności w zgrabnym, hermetycznym module o minimalnym progu wejścia (ang. \textit{low entry barrier}) dla przyszłych programistów. 
+Opracowana biblioteka pomyślnie rozwiązuje problem strukturalnego narzutu przesyłowych danych obecnego w popularnym standardzie JWT. Eliminacja nieużywanych metadanych oraz innowacyjne, oparte na konwersji bitowej podejście do interpretowania złożonych struktur ról użytkowników zaowocowały miniaturyzacją autoryzacyjnych żądań sieciowych. Wykorzystanie warstwy abstrakcji programistycznej, zgodnej z wzorcami wstrzykiwania zależności, umożliwiło zamknięcie całej złożoności w zgrabnym, hermetycznym module o minimalnym progu wejścia (ang. \textit{low entry barrier}) dla przyszłych programistów. 
 
 Przeprowadzona analiza testowa w oparciu o globalne wytyczne OWASP potwierdziła, że kompresja algorytmów nie wpłynęła na obniżenie parametrów zabezpieczeń kryptograficznych. Choć uwypuklono obszary do potencjalnej kontynuacji badań technologicznych – takie jak implementacja natywnych rozwiązań pamięci podręcznej dla autoryzacji czy kluczy asymetrycznych – wykreowane rozwiązanie spełnia zadane wymogi inżynierskie i stanowi w pełni funkcjonalną alternatywę autoryzacyjną dla systemów o klasycznym i mikroserwisowym profilu architektonicznym.
 

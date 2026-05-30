@@ -11,7 +11,7 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {2.1}Uwierzytelnianie a autoryzacja}{6}{section.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Protokół HTTP i problem braku stanu}{6}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Ewolucja: Od sesji stanowych do bezstanowych tokenów}{6}{section.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Ewolucja: Od sesji stanowych do bezstanowych tokenów}{7}{section.2.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Porównanie architektury stanowej (sesyjnej) z bezstanową (tokenową)}}{8}{figure.caption.2}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:session_vs_token}{{2.1}{8}{Porównanie architektury stanowej (sesyjnej) z bezstanową (tokenową)}{figure.caption.2}{}}
@@ -22,52 +22,62 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}Koncepcja autorskiego tokenu}{11}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Algorytm podpisu cyfrowego}{11}{section.3.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Architektura kryptograficzna generowania tokenu}}{12}{figure.caption.3}\protected@file@percent }
-\newlabel{fig:token_crypto_flow}{{3.1}{12}{Architektura kryptograficzna generowania tokenu}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Algorytm podpisu cyfrowego}{12}{section.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Weryfikacja tokenu i integralność}{12}{section.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Zarządzanie rolami przy użyciu masek bitowych}{13}{section.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Analiza złożoności obliczeniowej i pamięciowej}{13}{section.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.6}Cykl życia sesji i rotacja tokenów odświeżających}{14}{section.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.7}Diagram klas: Warstwa danych}{14}{section.3.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagram klas warstwy danych (Entities)}}{14}{figure.caption.4}\protected@file@percent }
-\newlabel{fig:class_entities}{{3.2}{14}{Diagram klas warstwy danych (Entities)}{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.8}Diagram klas: Kontrakty i modele}{15}{section.3.8}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagram klas warstwy kontraktów i modeli}}{15}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:class_contracts}{{3.3}{15}{Diagram klas warstwy kontraktów i modeli}{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.9}Diagram klas: Logika i punkty dostępu}{15}{section.3.9}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagram klas implementacji logiki biznesowej}}{15}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:class_services}{{3.4}{15}{Diagram klas implementacji logiki biznesowej}{figure.caption.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.10}Diagram przypadków użycia}{16}{section.3.10}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagram przypadków użycia systemu}}{16}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:usecase_diagram}{{3.5}{16}{Diagram przypadków użycia systemu}{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.11}Diagram sekwencji weryfikacji uprawnień}{16}{section.3.11}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagram sekwencji weryfikacji uprawnień}}{17}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:sequence_diagram}{{3.6}{17}{Diagram sekwencji weryfikacji uprawnień}{figure.caption.8}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementacja rozwiązania}{18}{chapter.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Architektura kryptograficzna generowania tokenu}}{13}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:token_crypto_flow}{{3.1}{13}{Architektura kryptograficzna generowania tokenu}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Zarządzanie rolami przy użyciu masek bitowych}{14}{section.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Analiza złożoności obliczeniowej i pamięciowej}{14}{section.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Cykl życia sesji i rotacja tokenów odświeżających}{15}{section.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.7}Diagram klas: Warstwa danych}{15}{section.3.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagram klas warstwy danych (Entities)}}{15}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:class_entities}{{3.2}{15}{Diagram klas warstwy danych (Entities)}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.8}Diagram klas: Kontrakty i modele}{16}{section.3.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagram klas warstwy kontraktów i modeli}}{16}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:class_contracts}{{3.3}{16}{Diagram klas warstwy kontraktów i modeli}{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.9}Diagram klas: Logika i punkty dostępu}{16}{section.3.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagram klas implementacji logiki biznesowej}}{16}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:class_services}{{3.4}{16}{Diagram klas implementacji logiki biznesowej}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.10}Diagram przypadków użycia}{17}{section.3.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagram przypadków użycia systemu}}{17}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:usecase_diagram}{{3.5}{17}{Diagram przypadków użycia systemu}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.11}Diagram sekwencji weryfikacji uprawnień}{17}{section.3.11}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagram sekwencji weryfikacji uprawnień}}{18}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:sequence_diagram}{{3.6}{18}{Diagram sekwencji weryfikacji uprawnień}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementacja rozwiązania}{19}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Logika biznesowa i potok ASP.NET Core}{18}{section.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Integracja filtru autoryzacyjnego z potokiem żądań ASP.NET Core}}{18}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:aspnet_pipeline}{{4.1}{18}{Integracja filtru autoryzacyjnego z potokiem żądań ASP.NET Core}{figure.caption.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Rejestracja i bezpieczne przechowywanie haseł}{18}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Proces logowania i weryfikacji tożsamości}{19}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Implementacja odświeżania sesji i rotacji tokenów}{20}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Konfiguracja i dynamiczne rozszerzanie ładunku (Custom Payload)}{21}{section.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Automatyzacja zarządzania i migracja ról (Bootstrapper)}{23}{section.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.1}Dynamiczne skanowanie atrybutów}{24}{subsection.4.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.2}Proces bezpiecznej migracji uprawnień}{24}{subsection.4.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Implementacja operacji kryptograficznych i ochrona przed atakami}{25}{section.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.8}Filtry potoku HTTP i weryfikacja tożsamości}{27}{section.4.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.9}Zaawansowana autoryzacja oparta o role}{28}{section.4.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Analiza bezpieczeństwa i testowanie}{31}{chapter.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Logika biznesowa i potok ASP.NET Core}{19}{section.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Integracja filtru autoryzacyjnego z potokiem żądań ASP.NET Core}}{19}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:aspnet_pipeline}{{4.1}{19}{Integracja filtru autoryzacyjnego z potokiem żądań ASP.NET Core}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Rejestracja i bezpieczne przechowywanie haseł}{20}{section.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Proces logowania i weryfikacji tożsamości}{21}{section.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Implementacja odświeżania sesji i rotacji tokenów}{22}{section.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Konfiguracja i dynamiczne rozszerzanie ładunku (Custom Payload)}{24}{section.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Automatyzacja zarządzania i migracja ról (Bootstrapper)}{26}{section.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Dynamiczne skanowanie atrybutów}{28}{section.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}Proces bezpiecznej migracji uprawnień}{28}{section.4.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.9}Implementacja operacji kryptograficznych i ochrona przed atakami}{30}{section.4.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.10}Filtry potoku HTTP i weryfikacja tożsamości}{33}{section.4.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.11}Zaawansowana autoryzacja oparta o role}{35}{section.4.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Wdrożenie biblioteki i analiza porównawcza}{37}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Zgodność ze standardem OWASP Top 10}{31}{section.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Automatyzacja testów bezpieczeństwa kryptograficznego}{32}{section.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Analiza wydajnościowa i narzut obliczeniowy}{33}{section.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Ograniczenia systemu i obszary dalszego rozwoju}{34}{section.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Podsumowanie}{35}{chapter.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Strategie integracji warstwy danych}{37}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Proces wdrożenia krok po kroku}{38}{section.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Porównanie ze standardem ASP.NET Core Identity i JWT}{38}{section.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Analiza wydajnościowa oprogramowania}{39}{section.5.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Porównanie rozmiaru tokenu w zależności od liczby przypisanych ról}}{39}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:chart_size}{{5.1}{39}{Porównanie rozmiaru tokenu w zależności od liczby przypisanych ról}{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Średni czas walidacji żądania HTTP w funkcji złożoności uprawnień}}{40}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:chart_time}{{5.2}{40}{Średni czas walidacji żądania HTTP w funkcji złożoności uprawnień}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Analiza bezpieczeństwa i testowanie}{41}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\gdef \@abspage@last{38}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Zgodność ze standardem OWASP Top 10}{41}{section.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Automatyzacja testów bezpieczeństwa kryptograficznego}{42}{section.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Ograniczenia systemu i obszary dalszego rozwoju}{44}{section.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Podsumowanie}{45}{chapter.7}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\gdef \@abspage@last{48}
