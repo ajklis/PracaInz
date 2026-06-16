@@ -1,43 +1,41 @@
-\contentsline {section}{Słownik pojęć}{3}{Doc-Start}%
-\contentsline {chapter}{\numberline {1}Wstęp}{5}{chapter.1}%
-\contentsline {chapter}{\numberline {2}Przegląd technologii i stan wiedzy}{6}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Uwierzytelnianie a autoryzacja}{6}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Protokół HTTP i problem braku stanu}{6}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Ewolucja: Od sesji stanowych do bezstanowych tokenów}{7}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Anatomia standardu JSON Web Token (JWT)}{9}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Paradygmat Inversion of Control i mechanizm DI}{9}{section.2.5}%
-\contentsline {section}{\numberline {2.6}Środowisko uruchomieniowe i persystencja danych}{10}{section.2.6}%
-\contentsline {chapter}{\numberline {3}Projekt i architektura systemu}{11}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Koncepcja autorskiego tokenu}{11}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Algorytm podpisu cyfrowego}{12}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Weryfikacja tokenu i integralność}{12}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Zarządzanie rolami przy użyciu masek bitowych}{14}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Analiza złożoności obliczeniowej i pamięciowej}{14}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Cykl życia sesji i rotacja tokenów odświeżających}{15}{section.3.6}%
-\contentsline {section}{\numberline {3.7}Diagram klas: Warstwa danych}{15}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Diagram klas: Kontrakty i modele}{16}{section.3.8}%
-\contentsline {section}{\numberline {3.9}Diagram klas: Logika i punkty dostępu}{16}{section.3.9}%
-\contentsline {section}{\numberline {3.10}Diagram przypadków użycia}{17}{section.3.10}%
-\contentsline {section}{\numberline {3.11}Diagram sekwencji weryfikacji uprawnień}{17}{section.3.11}%
-\contentsline {chapter}{\numberline {4}Implementacja rozwiązania}{19}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Logika biznesowa i potok ASP.NET Core}{19}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Rejestracja i bezpieczne przechowywanie haseł}{20}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Proces logowania i weryfikacji tożsamości}{21}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Implementacja odświeżania sesji i rotacji tokenów}{22}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Konfiguracja i dynamiczne rozszerzanie ładunku (Custom Payload)}{24}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Automatyzacja zarządzania i migracja ról (Bootstrapper)}{26}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Dynamiczne skanowanie atrybutów}{28}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Proces bezpiecznej migracji uprawnień}{28}{section.4.8}%
-\contentsline {section}{\numberline {4.9}Implementacja operacji kryptograficznych i ochrona przed atakami}{30}{section.4.9}%
-\contentsline {section}{\numberline {4.10}Filtry potoku HTTP i weryfikacja tożsamości}{33}{section.4.10}%
-\contentsline {section}{\numberline {4.11}Zaawansowana autoryzacja oparta o role}{35}{section.4.11}%
-\contentsline {chapter}{\numberline {5}Wdrożenie biblioteki i analiza porównawcza}{37}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Strategie integracji warstwy danych}{37}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Proces wdrożenia krok po kroku}{38}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Porównanie ze standardem ASP.NET Core Identity i JWT}{38}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Analiza wydajnościowa oprogramowania}{39}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Analiza bezpieczeństwa i testowanie}{41}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Zgodność ze standardem OWASP Top 10}{41}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Automatyzacja testów bezpieczeństwa kryptograficznego}{42}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Ograniczenia systemu i obszary dalszego rozwoju}{44}{section.6.3}%
-\contentsline {chapter}{\numberline {7}Podsumowanie}{45}{chapter.7}%
+\contentsline {section}{Słownik pojęć}{7}{Doc-Start}%
+\contentsline {chapter}{\numberline {1}Wstęp}{12}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Przegląd technologii i stan wiedzy}{15}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Uwierzytelnianie a autoryzacja}{15}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Protokół HTTP i problem braku stanu}{15}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Ewolucja: Od sesji stanowych do bezstanowych tokenów}{16}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Anatomia standardu JSON Web Token (JWT)}{16}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Paradygmat Inversion of Control i mechanizm DI}{18}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Środowisko uruchomieniowe i persystencja danych}{18}{section.2.6}%
+\contentsline {chapter}{\numberline {3}Projekt i architektura systemu}{21}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Koncepcja autorskiego tokenu}{21}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Algorytm podpisu cyfrowego}{22}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Weryfikacja tokenu i integralność}{22}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Zarządzanie rolami przy użyciu masek bitowych}{24}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Analiza złożoności obliczeniowej i pamięciowej}{25}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Cykl życia sesji i rotacja tokenów odświeżających}{25}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Diagram klas: Warstwa danych}{26}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Diagram klas: Kontrakty i modele}{27}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Diagram klas: Logika i punkty dostępu}{28}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Diagram przypadków użycia}{28}{section.3.10}%
+\contentsline {section}{\numberline {3.11}Diagram sekwencji weryfikacji uprawnień}{29}{section.3.11}%
+\contentsline {chapter}{\numberline {4}Implementacja rozwiązania}{32}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Logika biznesowa i potok ASP.NET Core}{32}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Rejestracja i bezpieczne przechowywanie haseł}{33}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Proces logowania i weryfikacji tożsamości}{34}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Implementacja odświeżania sesji i rotacji tokenów}{37}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Konfiguracja i dynamiczne rozszerzanie ładunku (Custom Payload)}{38}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Automatyzacja zarządzania i migracja ról (Bootstrapper)}{40}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Dynamiczne skanowanie atrybutów}{41}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Proces bezpiecznej migracji uprawnień}{41}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Implementacja operacji kryptograficznych i ochrona przed atakami}{43}{section.4.9}%
+\contentsline {section}{\numberline {4.10}Filtry potoku HTTP i weryfikacja tożsamości}{45}{section.4.10}%
+\contentsline {section}{\numberline {4.11}Zaawansowana autoryzacja oparta o role}{47}{section.4.11}%
+\contentsline {chapter}{\numberline {5}Wdrożenie biblioteki i analiza porównawcza}{49}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Strategie integracji warstwy danych}{49}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Proces wdrożenia krok po kroku}{50}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Porównanie ze standardem ASP.NET Core Identity i JWT}{50}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Analiza wydajnościowa oprogramowania}{51}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Podsumowanie i perspektywy rozwoju}{53}{chapter.6}%
+\contentsline {chapter}{Bibliografia}{55}{chapter*.12}%
+\contentsline {chapter}{Bibliografia}{55}{chapter*.12}%

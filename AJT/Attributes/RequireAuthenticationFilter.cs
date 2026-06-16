@@ -57,9 +57,6 @@ namespace AJT.Attributes
                 await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { message = "Unauthorized" }));
                 return;
             }
-
-            await Task.CompletedTask;
-
         }
     }
 }
