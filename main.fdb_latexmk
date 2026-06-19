@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1781625252.38994 "e:/codingProj/PracaInz/main.tex" "main.pdf" "main" 1781625254.83783 0
+["pdflatex"] 1781868438.89346 "e:/codingProj/PracaInz/main.tex" "main.pdf" "main" 1781868441.03237 0
   "C:/Users/Adam/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1780150866 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/Adam/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1773572607 13333044 89e9c665d7bf1302346769e297f2244b ""
   "C:/Users/Adam/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc" 1256929440 2375 baa924870cfb487815765f9094cf3728 ""
@@ -244,11 +244,11 @@
   "C:/Users/Adam/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "C:/Users/Adam/AppData/Local/Programs/MiKTeX/tex/latex/xifthen/xifthen.sty" 1448274436 5689 1bfa68243e89a54479e7d0580773c57e ""
   "SGGW-thesis.cls" 1778175991 13131 0ac20692baf50e94afe89c9973a7116a ""
-  "e:/codingProj/PracaInz/main.tex" 1781625249 85021 ef8aedc71e79663f2fbe4a008707b1d6 ""
-  "main.aux" 1781625254 15162 5d321bfb1eb8e3d8cf016abc30c69ab8 "pdflatex"
-  "main.out" 1781625254 10252 5919083d3e6ebd8802791cb0b763f2b0 "pdflatex"
-  "main.tex" 1781625249 85021 ef8aedc71e79663f2fbe4a008707b1d6 ""
-  "main.toc" 1781625254 3976 bf2944f3d4092627de32f8aa7ed1036a "pdflatex"
+  "e:/codingProj/PracaInz/main.tex" 1781868436 84973 592740c63b8c499d49785ec0eca7dce0 ""
+  "main.aux" 1781868440 15065 464d9d9577f77b1cffc87902bc8d0462 "pdflatex"
+  "main.out" 1781868440 10146 3e1f98f99cfa571bfca4cdb1268ef46a "pdflatex"
+  "main.tex" 1781868436 84973 592740c63b8c499d49785ec0eca7dce0 ""
+  "main.toc" 1781868440 3920 f1febf50f0e39ca3b8e549344dcefd69 "pdflatex"
   "naglowek_inz.png" 1778175991 37757 f20810e2c9ebb2be1256e938754ce4a6 ""
   "png/aspnet_pipeline.png" 1778175214 14050 c3b3c69ee079461b4ea500885535a21a ""
   "png/class_contracts.png" 1773582747 26904 eeced722928cce9313db834356fdd315 ""

@@ -37,7 +37,7 @@
 \thesis{Praca dyplomowa na kierunku:}
 \course{Informatyka}
 \promotor{dr inż. Artur Krupa}
-\pworkplace{Katedra Informatyki / Instytut Informatyki Technicznej} 
+\pworkplace{Instytut Informatyki Technicznej\\Katedra Sztucznej Inteligencji} 
 \date{2026}
 
 \onehalfspacing
@@ -353,7 +353,7 @@ Proces ten w~całości aktywuje się asynchronicznie dokładnie w~momencie fizyc
     \label{fig:sequence_diagram}
 \end{figure}
 
-\startchapterfromoddpage
+\clearpage
 \chapter{Implementacja rozwiązania}
 
 Mając na uwadze przygotowany i~opisany w~poprzednim rozdziale kompletny, teoretyczny model architektury klas, przystąpiono z~kolei do właściwego, fizycznego programowania w~obiekto-orientowanym środowisku języka C\#. Zgodnie ze ścisłymi wytycznymi czystego kodu \cite{cleancode} oraz nowoczesnej zasady inżynierskiego rzemiosła oprogramowania, w~tej, zasadniczej części pracy zaprezentowano wyłącznie wyselekcjonowane, kluczowe dla logiki działania fragmenty wyprodukowanego kodu źródłowego. Zrezygnowano w~niej z~przytaczania całościowych i~niezbędnych deklaracji klas czy pakietów na rzecz wysoce wnikliwej, akademickiej analizy zaimplementowanych algorytmów autoryzacyjnych.
@@ -416,7 +416,7 @@ Jak wyraźnie widać wewnątrz samego ciała tej metody, cała ryzykowna z~punkt
 
 Głównym punktem wejścia do chronionej strefy API jest serwis \texttt{LoginService}. Odpowiada on za autentykację użytkownika na podstawie dostarczonych poświadczeń logowania. 
 
-Na Listingu \ref{lst:login} zaprezentowano bazową metodę \texttt{Login}. Kluczowym aspektem jej implementacji jest wykorzystanie fabryki zakresów (\texttt{IServiceScopeFactory}). Ponieważ autoryzacja może być wywoływana z różnych kontekstów cyklu życia aplikacji, serwis każdorazowo tworzy nowy, odizolowany zakres dla kontenera wstrzykiwania zależności (DI). Dopiero z niego pobierane jest repozytorium użytkowników (\texttt{IUserRepo}). 
+Na Listingu \ref{lst:login} zaprezentowano bazową metodę \texttt{Login}. Kluczowym aspektem jej implementacji jest wykorzystanie fabryki zakresów (\texttt{IServiceScopeFactory}). Ponieważ autoryzacja może być wywoływana z różnych kontekstów cyklu życia aplikacji, serwis każdorazowo tworzy nowy, odizolowany zakres dla kontenera wstrzykiwania zależności (DI). Dopiero z~niego pobierane jest repozytorium użytkowników (\texttt{IUserRepo}). 
 
 Po pomyślnej weryfikacji skrótu hasła (linia 7), właściwy i złożony obliczeniowo proces kryptograficznego generowania tokenów delegowany jest do prywatnej metody pomocniczej. Taki zabieg architektoniczny znacząco upraszcza implementację interfejsu publicznego i jest zgodny z dobrymi praktykami programowania.
 
@@ -965,10 +965,10 @@ Przeprowadzona analiza testowa w~oparciu o~globalne wytyczne OWASP \cite{owasp20
 \end{itemize}
 
 Wykreowane rozwiązanie spełnia zadane wymogi inżynierskie i~stanowi w~pełni funkcjonalną alternatywę autoryzacyjną dla systemów o~klasycznym i~mikroserwisowym profilu architektonicznym.
+
 \clearpage
 
 \begin{thebibliography}{99}
-\addcontentsline{toc}{chapter}{Bibliografia}
 
 \bibitem{owasp2021} OWASP Foundation, \textit{OWASP Top 10:2021 – The Ten Most Critical Web Application Security Risks}, 2021.
 \bibitem{rfc7519} M. Jones, J. Bradley, N. Sakimura, \textit{JSON Web Token (JWT)}, RFC 7519, Internet Engineering Task Force (IETF), maj 2015.

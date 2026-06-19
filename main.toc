@@ -19,23 +19,22 @@
 \contentsline {section}{\numberline {3.9}Diagram klas: Logika i punkty dostępu}{28}{section.3.9}%
 \contentsline {section}{\numberline {3.10}Diagram przypadków użycia}{28}{section.3.10}%
 \contentsline {section}{\numberline {3.11}Diagram sekwencji weryfikacji uprawnień}{29}{section.3.11}%
-\contentsline {chapter}{\numberline {4}Implementacja rozwiązania}{32}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Logika biznesowa i potok ASP.NET Core}{32}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Rejestracja i bezpieczne przechowywanie haseł}{33}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Proces logowania i weryfikacji tożsamości}{34}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Implementacja odświeżania sesji i rotacji tokenów}{37}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Konfiguracja i dynamiczne rozszerzanie ładunku (Custom Payload)}{38}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Automatyzacja zarządzania i migracja ról (Bootstrapper)}{40}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Dynamiczne skanowanie atrybutów}{41}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Proces bezpiecznej migracji uprawnień}{41}{section.4.8}%
-\contentsline {section}{\numberline {4.9}Implementacja operacji kryptograficznych i ochrona przed atakami}{43}{section.4.9}%
-\contentsline {section}{\numberline {4.10}Filtry potoku HTTP i weryfikacja tożsamości}{45}{section.4.10}%
-\contentsline {section}{\numberline {4.11}Zaawansowana autoryzacja oparta o role}{47}{section.4.11}%
+\contentsline {chapter}{\numberline {4}Implementacja rozwiązania}{31}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Logika biznesowa i potok ASP.NET Core}{31}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Rejestracja i bezpieczne przechowywanie haseł}{32}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Proces logowania i weryfikacji tożsamości}{33}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Implementacja odświeżania sesji i rotacji tokenów}{36}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Konfiguracja i dynamiczne rozszerzanie ładunku (Custom Payload)}{37}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Automatyzacja zarządzania i migracja ról (Bootstrapper)}{39}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Dynamiczne skanowanie atrybutów}{40}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Proces bezpiecznej migracji uprawnień}{40}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Implementacja operacji kryptograficznych i ochrona przed atakami}{42}{section.4.9}%
+\contentsline {section}{\numberline {4.10}Filtry potoku HTTP i weryfikacja tożsamości}{44}{section.4.10}%
+\contentsline {section}{\numberline {4.11}Zaawansowana autoryzacja oparta o role}{46}{section.4.11}%
 \contentsline {chapter}{\numberline {5}Wdrożenie biblioteki i analiza porównawcza}{49}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Strategie integracji warstwy danych}{49}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Proces wdrożenia krok po kroku}{50}{section.5.2}%
 \contentsline {section}{\numberline {5.3}Porównanie ze standardem ASP.NET Core Identity i JWT}{50}{section.5.3}%
 \contentsline {section}{\numberline {5.4}Analiza wydajnościowa oprogramowania}{51}{section.5.4}%
 \contentsline {chapter}{\numberline {6}Podsumowanie i perspektywy rozwoju}{53}{chapter.6}%
-\contentsline {chapter}{Bibliografia}{55}{chapter*.12}%
 \contentsline {chapter}{Bibliografia}{55}{chapter*.12}%
