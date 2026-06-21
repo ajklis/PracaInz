@@ -79,7 +79,7 @@
     \item \textbf{MFA (Multi-Factor Authentication)} – uwierzytelnianie wieloskładnikowe; metoda weryfikacji tożsamości wymagająca użycia co najmniej dwóch niezależnych dowodów.
     \item \textbf{ORM (Object-Relational Mapping)} – mapowanie obiektowo-relacyjne; technika programistyczna wiążąca struktury obiektowe w~kodzie z~tabelami relacyjnej bazy danych.
     \item \textbf{RAM (Random Access Memory)} – główna pamięć operacyjna komputera.
-    \item \textbf{SIEM (Security Information and Event Management)} – system zarządzania informacjami i~zdarzeniami bezpieczeństwa, służący do monitorowania ruchu sieciowego.
+    \item \textbf{SIEM (Security Information and Event Management)} – system zarządzania informacjami i~zdarzeniami bezpieczeństwa, do monitorowania ruchu sieciowego.
     \item \textbf{SQL JOIN} – operacja złączenia w~relacyjnych bazach danych polegająca na logicznym łączeniu rekordów z~dwóch lub więcej tabel.
     \item \textbf{Token} – cyfrowy nośnik informacji, często zabezpieczony kryptograficznie, reprezentujący tożsamość lub uprawnienia użytkownika.
     \item \textbf{TOTP (Time-based One-Time Password)} – algorytm generujący jednorazowe hasła oparte na aktualnym czasie.
@@ -88,7 +88,6 @@
 
 \clearpage
 \tableofcontents
-\clearpage
 
 \startchapterfromoddpage
 \chapter{Wstęp}
@@ -151,6 +150,7 @@ Najpopularniejszym rynkowym formatem tokenu jest obecnie standard JWT, zdefiniow
 }
 \end{lstlisting}
 
+\clearpage
 \textbf{2. Ładunek (Payload):} Miejsce przechowywania oświadczeń (ang. \textit{claims}), czyli faktycznych danych o~użytkowniku, takich jak jego identyfikator (\texttt{sub}), data wygaśnięcia (\texttt{exp}) czy posiadane uprawnienia. W~standardzie JWT role przesyłane są zazwyczaj jako pełne ciągi tekstowe:
 \begin{lstlisting}
 {
@@ -240,7 +240,7 @@ Opierając się na schemacie, wyraźnie widać dwuetapowość procesu. Po serial
 \section{Weryfikacja tokenu i integralność}
 
 Zrozumienie procesu weryfikacji po stronie serwera jest kluczowe z~perspektywy analizy bezpieczeństwa opisywanej architektury. Weryfikacja bezstanowa nie polega na kryptograficznym "odszyfrowywaniu" dostarczonej sumy kontrolnej, lecz na deterministycznym procesie jej matematycznej reprodukcji.
-
+\clearpage
 Kiedy serwer chroniony odbiera token z~żądania HTTP, rozdziela go programowo używając znaku kropki jako dedykowanego separatora. Następnie, korzystając z~przechwyconego z~sieci ładunku $P$ oraz zachowanego w~swojej pamięci własnego klucza symetrycznego $K$, algorytm bezpieczeństwa ponownie wykonuje opisaną wcześniej funkcję $\text{HMAC}_{\text{SHA256}}$. Jeśli nowo wyliczona w~pamięci RAM sygnatura $\sigma'$ jest znakowo i~matematycznie tożsama z~sygnaturą $\sigma$ nadesłaną przez klienta (czyli spełniony jest warunek $\sigma' == \sigma$), serwer nabiera 100\% pewności, że dane nie uległy zewnętrznej manipulacji. Ewentualna, sfabrykowana zmiana choćby jednego bitu w~tekście ładunku (np. próba nielegalnej zmiany identyfikatora przypisanej roli) spowoduje drastyczną zmianę ostatecznie wyliczonego skrótu wskutek tzw. zjawiska lawinowego (ang. \textit{Avalanche Effect}). Poskutkuje to niezgodnością podpisów i~natychmiastowym odrzuceniem szkodliwego żądania HTTP z~zastrzeżonym kodem autoryzacji 401 Unauthorized.
 
 \section{Zarządzanie rolami przy użyciu masek bitowych}
@@ -282,7 +282,7 @@ Z kolei w~opracowanym mechanizmie autorskim, po początkowym zdekodowaniu krótk
 
 \section{Cykl życia sesji i rotacja tokenów odświeżających}
 
-Utrzymywanie niezwykle krótkiego czasu życia tzw. tokenu dostępowego (ang. \textit{Access Token} - zazwyczaj w~przedziale od kilku do kilkunastu minut) stanowi absolutny fundament polityki bezpieczeństwa w~każdym modelu bezstanowym. Restrykcyjne ograniczenie czasu życia wprost i~drastycznie minimalizuje podatne okno czasowe, w~którym ewentualnie przechwycony przez włamywacza z~sieci lokalnej token mógłby posłużyć do wyrządzenia realnych szkód w~systemie.
+Utrzymywanie krótkiego czasu życia tzw. tokenu dostępowego (ang. \textit{Access Token} - zazwyczaj w~przedziale od kilku do kilkunastu minut) stanowi absolutny fundament polityki bezpieczeństwa w~każdym modelu bezstanowym. Restrykcyjne ograniczenie czasu życia wprost i~drastycznie minimalizuje podatne okno czasowe, w~którym ewentualnie przechwycony przez włamywacza z~sieci lokalnej token mógłby posłużyć do wyrządzenia realnych szkód w~systemie.
 
 Aby jednak jednocześnie zapewnić wysoką ergonomię i~ciągłość pracy bez konieczności nieustannego wymuszania na użytkowniku ponownego wpisywania poświadczeń (hasła), do architektury wprowadzono osobne, długoterminowe tokeny odświeżające (ang. \textit{Refresh Tokens}). Prezentowana architektura zakłada przy tym bezwzględne wdrożenie mechanizmu bezpiecznej rotacji (ang. \textit{Refresh Token Rotation}) \cite{oauth2}. 
 
@@ -851,11 +851,11 @@ Największym wyzwaniem przy wdrażaniu gotowych systemów autoryzacyjnych do ist
 
 Rozważono dwa główne podejścia do rozwiązania tego problemu:
 \begin{enumerate}
-    \item \textbf{Izolacja i synchronizacja (Baza dedykowana):} Podejście znane z~architektury mikrousług \cite{fowler2002}. Biblioteka AJT otrzymuje własną, całkowicie odseparowaną bazę danych. Istniejący system i~system autoryzacyjny komunikują się poprzez asynchronicznego brokera wiadomości. Gdy w~starym systemie rejestruje się użytkownik, wysyłane jest zdarzenie, na podstawie którego AJT tworzy jego kopię autoryzacyjną u~siebie. Rozwiązanie to jest wysoce skalowalne, lecz wprowadza ogromny narzut infrastrukturalny i~problem transakcyjności rozproszonej.
+    \item \textbf{Izolacja i synchronizacja (Baza dedykowana):} Podejście znane z~architektury mikrousług \cite{fowler2002}. Biblioteka AJT otrzymuje własną, całkowicie odseparowaną bazę danych. Istniejący system i~system autoryzacyjny komunikują się poprzez asynchronicznego brokera wiadomości. Gdy w~starym systemie rejestruje się użytkownik, wysyłane jest zdarzenie, na podstawie którego AJT tworzy jego kopię autoryzacyjną u~siebie. Rozwiązanie to jest wysoce skalowalne, lecz wprowadza narzut infrastrukturalny i~problem transakcyjności rozproszonej.
     
     \item \textbf{Adaptacja modelu (Zalecane - Wzorzec Adaptera / EF Core Mapping):} Podejście optymalne dla aplikacji monolitycznych. Zamiast dublować dane, biblioteka jest konfigurowana w~taki sposób, aby "podpiąć" się pod istniejącą strukturę. Tabele specyficzne dla biblioteki (takie jak \texttt{Roles}, \texttt{UserRoles} oraz \texttt{RefreshTokens}) są wstrzykiwane do istniejącego schematu bazy danych. Następnie, wykorzystując mechanizmy EF Core \cite{ms_ef} (tzw. klucze obce i~właściwości nawigacyjne), tabele autoryzacyjne zostają relacyjnie połączone z~istniejącym kluczem głównym (ID) tabeli użytkowników starego systemu. 
 \end{enumerate}
-
+\clearpage
 W podejściu adaptacyjnym ingerencja w~stary kod jest minimalna. Tabela użytkowników w~bazie danych nie ulega modyfikacji, a~system zyskuje nowe możliwości autoryzacyjne w~sposób płynny i~bezkolizyjny.
 
 \section{Proces wdrożenia krok po kroku}
@@ -912,7 +912,7 @@ Wykres dowodzi, że w~standardzie JWT rozmiar przesyłanych danych rośnie linio
 \caption{Porównanie rozmiaru tokenu w zależności od liczby przypisanych ról}
 \label{fig:chart_size}
 \end{figure}
-
+\clearpage
 Drugim badanym aspektem był czas weryfikacji uprawnień w~potoku żądania HTTP, mierzony po stronie serwera aplikacji (Rysunek \ref{fig:chart_time}). Walidacja standardowego tokenu JWT wymaga parsowania struktury znakowej oraz iteracyjnego przeszukiwania tablicy ról, co przy 10 rolach zajmuje średnio około 40 mikrosekund. Z~kolei autorski algorytm po wyliczeniu sygnatury sprawdza uprawnienia za pomocą natywnej operacji iloczynu bitowego procesora (AND). Złożoność obliczeniowa tego zabiegu to stałe $O(1)$, co sprawia, że czas autoryzacji oscyluje w~granicach zaledwie 12 mikrosekund, wykazując całkowitą niewrażliwość na wzrost stopnia skomplikowania uprawnień użytkownika.
 
 \begin{figure}[htbp]
@@ -954,7 +954,7 @@ Przeprowadzona analiza testowa w~oparciu o~globalne wytyczne OWASP \cite{owasp20
     \item \textbf{Czarna lista tokenów (Blacklisting):} Ponieważ serwer z~założenia nie odpytuje bazy danych przy walidacji głównego tokenu dostępowego, w~przypadku jawnego wylogowania token pozostaje ważny aż do czasu naturalnego wygaśnięcia. Wdrożenie zewnętrznej, błyskawicznej bazy pamięciowej (np. Redis \cite{redis}), która przechowywałaby identyfikatory unieważnionych tokenów, skutecznie załatałoby tę lukę bez drastycznego spadku wydajności.
     
     \item \textbf{Inkrementacyjna synchronizacja słownika ról:} Obecna implementacja modułu \texttt{RoleBootstrapper} w~przypadku wykrycia jakiejkolwiek zmiany w~strukturze uprawnień kodu źródłowego przeprowadza kompletną migrację danych, czyszcząc i~mapując na nowo relacje wszystkich użytkowników. Przy dużej skali produkcyjnej operacja ta generuje ogromne obciążenie bazy danych. Przyszłym kierunkiem optymalizacji jest wprowadzenie algorytmu synchronizacji różnicowej (ang. \textit{delta sync}), który rezerwowałby niewykorzystane pozycje bitowe jako zapas (ang. \textit{padding}) i~dopisywał nowe role na koniec maski lub selektywnie unieważniał usunięte kody, całkowicie eliminując konieczność kosztownej przebudowy całego schematu asocjacyjnego.
-    
+    \clearpage
     \item \textbf{Kryptografia asymetryczna:} Obecny symetryczny algorytm HMAC \cite{rfc2104} sprawdza się w~przypadku monolitycznego API. W~rozproszonej architekturze mikroserwisowej \cite{fowler2002} niezbędna byłaby implementacja wsparcia dla algorytmów z~rodziny RSA, gdzie główny serwer autoryzacyjny używa klucza prywatnego do podpisu, a~mikroserwisy klucza publicznego wyłącznie do weryfikacji.
     
     \item \textbf{Ochrona przed atakami Brute-Force:} Autorski system nie posiada wbudowanych mechanizmów limitowania zapytań sieciowych, co tworzy podatność na ataki słownikowe (ang. \textit{Credential Stuffing}). W~przyszłości konieczna jest integracja z~natywnym modułem \textit{ASP.NET Core Rate Limiting}.
